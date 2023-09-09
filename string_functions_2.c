@@ -1,3 +1,5 @@
+#include "shell.h"
+
 /**
  * _strdup - A function that creates a new array using DMP
  * and it copies the contents of a given string to the new
@@ -52,29 +54,6 @@ char *startsWith(const char *myString, const char *theSString)
 		mySString = mySString + 1;
 	}
 	return ((char *)myString);
-}
-
-
-/**
- * _memset - a function to set some memory locations to a specfic value
- * @s: Pointer to the array
- * @b: The value that we want to set to
- * @n: The number of bytes that we want to use
- * Description: Nothing
- * Return: pointer to the array
-*/
-
-char *_memset(char *s, char b, unsigned int n)
-{
-	char *p = s;
-
-	while (n != 0)
-	{
-		*p = (unsigned char) b;
-		p = p + 1;
-		n = n - 1;
-	}
-	return (s);
 }
 
 /**
