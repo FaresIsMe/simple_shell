@@ -18,6 +18,52 @@ typedef struct myNewList
 	struct myNewList *next;
 } myList;
 
+/**
+ * struct pass_inf - contains pseudo-arguments to pass into a function,
+ * allowing uniform prototype for function pointer struct
+ * @argument: a string generated from getline containing arguments
+ * @arguments: an array of strings generated from argument
+ * @path: a string path for the current command
+ * @argument_count: the argument count
+ * @line_count: the error count
+ * @error_number: the error code for exit()s
+ * @linecount_flag: if on count this line of input
+ * @filename: the program filename
+ * @environment: linked list local copy of environ
+ * @history: the history node
+ * @alias: the alias node
+ * @environ: custom modified copy of environ from LL env
+ * @environment_changed: on if environ was changed
+ * @status: the return status of the last exec'd command
+ * @command_buffer: address of pointer to command buffer, on if chaining
+ * @command_buffer_type: command type ||, &&, ;
+ * @read_file_descriptor: the file descriptor from which to read line input
+ * @history_count: the history line number count
+ */
+typedef struct pass_inf
+{
+	char *argument;
+	char **arguments;
+	char *path;
+	int argument_count;
+	unsigned int line_count;
+	int error_number;
+	int linecount_flag;
+	char *filename;
+	list_t *environment;
+	list_t *history;
+	list_t *alias;
+	char **environ;
+	int environment_changed;
+	int status;
+
+	char **command_buffer;
+	int command_buffer_type;
+	int read_file_descriptor;
+	int history_count;
+} myInfoObject;
+
+
 /*string_function_1*/
 int _strlen(char *str);
 int _strcmp(char *str1, char *str2);
