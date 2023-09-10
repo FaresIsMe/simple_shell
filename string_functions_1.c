@@ -105,3 +105,10 @@ char *_strncpy(char *str1, char *str2, int n)
 
 	return (str1);
 }
+
+int lastTime(void)
+{
+	printf("Lol\n");
+	return (0);
+	/*last time definitly maybe*/
+}
