@@ -60,8 +60,3 @@ int _putchar(char c)
 	}
 	return (1);
 }
-
-void doesNothing(void)
-{
-	printf("lol\n");
-}
