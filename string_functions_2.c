@@ -51,7 +51,7 @@ char *startsWith(const char *myString, const char *theSString)
 		if (*myString != *theSString)
 			return (NULL);
 		myString = myString + 1;
-		mySString = mySString + 1;
+		myString = myString + 1;
 	}
 	return ((char *)myString);
 }

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_BUFFER_SIZE 1024 /* max size of the buffer */
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
@@ -41,7 +42,7 @@ int _putchar(char c);
 /*memory_functions_1*/
 char *_memset(char *s, char b, unsigned int n);
 void freeAString(char **myPointer);
-bool freeNulling(char **myPoitner);
+bool freeNulling(char **myPointer);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /*additional_functions_1*/
