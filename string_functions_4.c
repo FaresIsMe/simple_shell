@@ -112,7 +112,7 @@ char **strtow(char *str, char *del)
 		int word_len = i - word_start;
 		num_words++;
 
-		words = _realloc(words, num_words * sizeof(char *));
+		words = _realloc(words, num_words * sizeof(char *), (num_words + 1) * sizeof(char *));
 		words[num_words - 1] = malloc((word_len + 1) * sizeof(char));
 		_strncpy(words[num_words - 1], str + word_start, word_len);
 		words[num_words - 1][word_len] = '\0';
@@ -124,7 +124,7 @@ char **strtow(char *str, char *del)
 		return (NULL);
 	}
 
-	words = _realloc(words, (num_words + 1) * sizeof(char *));
+	words = _realloc(words, (num_words + 1) * sizeof(char *), (num_words + 1) * sizeof(char *));
 	words[num_words] = NULL;
 
 	return (words);
