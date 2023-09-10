@@ -28,6 +28,10 @@ char *_strncpy(char *str1, char *str2, int n);
 /*string_functions_2*/
 char *_strdup(char *str);
 char *startsWith(const char *myString, const char *theSString);
+<<<<<<< HEAD
+char *_memset(char *s, char b, unsigned int n);
+=======
+>>>>>>> 21de96d24a8f3f3fa61ef5c75a5775b18ced5946
 char *_strchr(const char *myString, char myChar);
 
 /*string_functions_3*/
