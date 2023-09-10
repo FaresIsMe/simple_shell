@@ -25,33 +25,12 @@ bool isInteractive(myInfoObject *myInfo)
 
 bool _isalpha(int myChar)
 {
-	if ((myChar >= 'a' && myChar <= 'z') || (myChar >= 'A' && myChar <= 'Z')
+	if ((myChar >= 'a' && myChar <= 'z') || (myChar >= 'A' && myChar <= 'Z'))
 		return (true);
 	else
 		return (false);
 }
 
-/**
- * isDelim - A function to check if a character is a delimter
- * @checkedOne: The character to be checked if it exists
- * @theStringDel: A pointer to the string that we
- * are searching in
- *
- * Return: True or False
-*/
-
-bool isDelim(char checkedOne, char *theStringDel)
-{
-	if (theStringDel == NULL)
-		return (NULL);
-	while (*theStringDel != '\0')
-	{
-		if (*theStringDel == checkedOne)
-			return (true);
-		theString = theStringDel + 1;
-	}
-	return (false);
-}
 
 /**
  * _atoi - A function that converts a string to integer
