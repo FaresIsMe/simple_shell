@@ -7,9 +7,9 @@
  * Return: It returns the number of elements in the linked list
 */
 
-size_t print_list(const list_t *h)
+size_t print_list(const myList *h)
 {
-	const list_t *myHead;
+	const myList *myHead;
 	size_t counter = 0;
 	
 	if (h == NULL)
@@ -17,8 +17,8 @@ size_t print_list(const list_t *h)
 	
 	while (h != NULL)
 	{
-		if ((*myHead).str != NULL)
-			_puts((myHead).str);
+		if ((*myHead).myString != NULL)
+			_puts((*myHead).myString);
 		else
 			_puts("(nil)");
 		_putchar('\n');
@@ -39,7 +39,7 @@ size_t print_list(const list_t *h)
  * Return: NULL or a pointer to the newly created node
 */
 
-myList *addingNodeBeg(myList *myHead, const char *myString, int num)
+myList *addingNodeBeg(myList **myHead, const char *myString, int num)
 {
 	myList *newHead;
 	if (myHead == NULL)
@@ -47,12 +47,12 @@ myList *addingNodeBeg(myList *myHead, const char *myString, int num)
 	newHead = malloc(sizeof(myList));
 	if (newHead == NULL)
 		return (NULL);
-	_memset(void *)newHead, 0, sizeof(myList);
+	_memset((void *)newHead, 0, sizeof(myList));
 	(*newHead).theNum = num;
 	if (myString != NULL)
 	{
-		(*newHead).theString = _strdup(myString);
-		if ((*newHead).theString == NULL)
+		(*newHead).myString = _strdup(myString);
+		if ((*newHead).myString == NULL)
 		{
 			free(newHead);
 			return (NULL);
@@ -71,7 +71,7 @@ myList *addingNodeBeg(myList *myHead, const char *myString, int num)
  * Return: It returns a pointer to the newly created node
 */
 
-list_t *add_node_end(list_t **head, const char *str, int num)
+myList *add_node_end(myList **head, const char *str, int num)
 {
 	myList *newNode = (myList *)malloc(sizeof(myList));
 	myList *current;
@@ -79,10 +79,10 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 	if (newNode == NULL || head == NULL)
 		return (NULL);
 	_memset((void *)newNode, 0, sizeof(newNode));
-	(newNode).theNum = num;
-	if ((*newNode).theString != NULL)
+	(*newNode).theNum = num;
+	if ((*newNode).myString != NULL)
 	{
-		newNode->str = _strdup(str);
+		newNode->myString = _strdup(str);
 		newNode->next = NULL;
 	}
 	else
@@ -113,15 +113,15 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 
 void free_list(myList **head)
 {
-	list_t *current = *head;
-	list_t *next;
+	myList *current = *head;
+	myList *next;
 	
 	if (head == NULL || *head == NULL)
 		return (NULL);
 	while (current != NULL)
 	{
 		next = current->next;
-		free(current->theString);
+		free(current->myString);
 		free(current);
 		current = next;
 	}
