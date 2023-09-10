@@ -53,7 +53,7 @@ void freeAString(char **myPointer)
  * Return: true or false
 */
 
-bool freeNulling(char **myPoitner)
+bool freeNulling(char **myPointer)
 {
 	while (myPointer != NULL && *myPointer != NULL)
 	{
