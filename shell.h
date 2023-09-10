@@ -16,6 +16,12 @@ char *_strcat(char *str1, const char *str2);
 char *_strcpy(char *str1, char *str2);
 char *_strncpy(char *str1, char *str2, int n);
 
+/*string_functions_2*/
+char *_strdup(char *str);
+char *startsWith(const char *myString, const char *theSString);
+char *_memset(char *s, char b, unsigned int n);
+char *_strchr(const char *myString, char myChar);
+
 /*string_functions_3*/
 char *_strncat(char *dest, char *src, int n);
 void _puts(char *s);
