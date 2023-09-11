@@ -50,9 +50,9 @@ typedef struct pass_inf
 	int error_number;
 	int linecount_flag;
 	char *filename;
-	list_t *environment;
-	list_t *history;
-	list_t *alias;
+	myList *environment;
+	myList *history;
+	myList *alias;
 	char **environ;
 	int environment_changed;
 	int status;

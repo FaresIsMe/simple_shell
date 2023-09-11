@@ -117,7 +117,7 @@ void free_list(myList **head)
 	myList *next;
 	
 	if (head == NULL || *head == NULL)
-		return (NULL);
+		return;
 	while (current != NULL)
 	{
 		next = current->next;
