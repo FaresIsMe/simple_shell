@@ -6,10 +6,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdbool.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #define MAX_BUFFER_SIZE 1024 /* max size of the buffer */
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
-
+#define MAX_ARGS 10
 
 typedef struct myNewList
 {
@@ -62,6 +64,11 @@ typedef struct pass_inf
 	int read_file_descriptor;
 	int history_count;
 } myInfoObject;
+
+#define Iintializing_INFO \
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL,\
+ NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0}
 
 
 /*string_function_1*/
