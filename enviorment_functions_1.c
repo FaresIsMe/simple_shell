@@ -58,3 +58,51 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
                 return (1);
         return (0);
 }
+
+/**
+ * preparingForUnsettingEnv - a function to prepare theunsetEnvVar function
+ * to do its job
+ * @myInfo: A pointer to myInfo varible that stores all the
+ * information about the command inputed to the shell
+ * 
+ * Return: 0 (Success) or 1 (Failure)
+*/
+
+int preparingForUnsettingEnv(myInfoObject *myInfo)
+{
+        int i = 1;
+        if ((*myInfo).argument_count <=1)
+        {
+                _put_fd("Not correct number of arguments\n", STDERR_FILENO);
+                return (1);
+        }
+        for (; i <= (*myInfo).argument_count; i++)
+        {
+                if (unsetEnvVar(myInfo, (*myInfo).arguments[i]) != 0)
+                        return (1);
+        }
+        return (0);
+}
+/**
+ * makingtheLinkedList - A function to make the linked list
+ * of enviorment variables
+ * @myInfo: A pointer to info object that stores everything
+ * about the command
+ * 
+ * Return: 1 or 0
+*/
+
+int makingtheLinkedList(myInfoObject *myInfo)
+{
+        myList *listHead, *tempHead;
+        size_t listSize = 0;
+
+        for (; environ[listSize] != NULL; listSize++)
+        {
+               tempHead = (listHead, environ[listSize], 0);
+               if (tempHead == NULL)
+                        return (1);
+        }
+        (*myInfo).environment = listHead;
+        return (0);
+}

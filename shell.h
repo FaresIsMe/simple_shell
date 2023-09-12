@@ -13,6 +13,10 @@
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
 #define MAX_ARGS 10
 
+
+
+extern char **environ;
+
 typedef struct myNewList
 {
 	int theNum;
