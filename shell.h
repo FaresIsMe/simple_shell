@@ -14,6 +14,8 @@
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
 #define MAX_ARGS 10
 
+#define HISTORY_FILE ".simple_shell_history"
+
 typedef struct myNewList
 {
 	int theNum;
