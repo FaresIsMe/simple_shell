@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 		: "r" (file_descriptor)
 	);
 
-	if (argc == 1)
+	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);
 		if (file_descriptor == -1)
@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 		INFO->read_file_descriptor = file_descriptor;
 	}
 
-	// populate_environment_list(INFO);
-	// read_history(INFO);
+	makingtheLinkedList(INFO);
+	ReadHistoryList(INFO);
 	// hsh(INFO, argv);
 
 	return (EXIT_SUCCESS);
