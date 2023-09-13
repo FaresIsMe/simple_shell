@@ -51,3 +51,45 @@ int unsetEnvVar(myInfoObject *myInfo, char *myVar)
 	}
 	return ((*myInfo).environment_changed);
 }
+
+/**
+ * settingEnvVar - A function to set an enviroment variable
+ * in myInfo variable
+ * @myInfo: A pointer to myInfo object
+ * @myVar: The name of the variable that we want to set
+ * @myValue: The value of the variable that we want to set
+ * 
+ * Return: 1 on failure and 0 on success
+*/
+
+int settingEnvVar(myInfoObject *myInfo, char *myVar, char *myValue)
+{
+        char *myBuffer;
+        myList *myHead;
+        char *myCP;
+
+        if (myVar == NULL || myValue == NULL)
+                return (0);
+        myBuffer = malloc(sizeof(myVar) + sizeof(myValue) + 2);
+        _strcpy(myBuffer, myVar);
+        _strcat(myBuffer, '=');
+        _strcat(myBuffer, myValue);
+        myHead = (*myInfo).environment;
+        while (myHead != NULL)
+        {
+                myCP = startsWith((*myHead).myString, myVar);
+                if (myCP != NULL && *myCP == '=')
+                {
+                        free((*myHead).myString);
+                        _strcpy((*myHead).myString, myBuffer);
+                        (*myInfo).environment_changed = 1;
+                        free(myBuffer);
+                        return (0);
+                }
+                myHead = (*myHead).next;
+        }
+        add_node_end(&(*myInfo).environment, myBuffer, 0);
+        free(myBuffer);
+        (*myInfo).environment_changed = 1;
+        return (0);
+}
