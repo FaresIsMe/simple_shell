@@ -25,7 +25,7 @@ void clearMyInfoVariable(myInfoObject *myInfo)
  * Return: Nothing (Void)
 */
 
-void settingMyInfoVarible(myInfoObject *myInfo, char **myArgv)
+void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv)
 {
 	int i = 0;
 

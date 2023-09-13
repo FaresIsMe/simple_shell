@@ -11,10 +11,10 @@ size_t print_list(const myList *h)
 {
 	const myList *myHead;
 	size_t counter = 0;
-	
+
 	if (h == NULL)
 		return (0);
-	
+
 	while (h != NULL)
 	{
 		if ((*myHead).myString != NULL)
@@ -23,7 +23,7 @@ size_t print_list(const myList *h)
 			_puts("(nil)");
 		_putchar('\n');
 		myHead = myHead + 1;
-		counter++;	
+		counter++;
 	}
 	return (counter);
 }
@@ -42,6 +42,7 @@ size_t print_list(const myList *h)
 myList *addingNodeBeg(myList **myHead, const char *myString, int num)
 {
 	myList *newHead;
+
 	if (myHead == NULL)
 		return (NULL);
 	newHead = malloc(sizeof(myList));
@@ -60,7 +61,7 @@ myList *addingNodeBeg(myList **myHead, const char *myString, int num)
 	}
 	(*newHead).next = *myHead;
 	*myHead = newHead;
-	return(newHead);
+	return (newHead);
 }
 
 /**
@@ -75,7 +76,7 @@ myList *add_node_end(myList **head, const char *str, int num)
 {
 	myList *newNode = (myList *)malloc(sizeof(myList));
 	myList *current;
-	
+
 	if (newNode == NULL || head == NULL)
 		return (NULL);
 	_memset((void *)newNode, 0, sizeof(newNode));
@@ -107,7 +108,7 @@ myList *add_node_end(myList **head, const char *str, int num)
  * free_list - A function to free the linked list
  * @head: A pointer to a pointer that
  * points to the head of the linked list
- * 
+ *
  * Return: It returns nothing (void)
 */
 
@@ -115,7 +116,7 @@ void free_list(myList **head)
 {
 	myList *current = *head;
 	myList *next;
-	
+
 	if (head == NULL || *head == NULL)
 		return;
 	while (current != NULL)

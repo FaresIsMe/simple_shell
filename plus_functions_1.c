@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * isInteractive - A function to check if we're at the interactive mode
  * or not
@@ -17,7 +16,7 @@ bool isInteractive(myInfoObject *myInfo)
 }
 
 /**
- * _isalaph - A function if a char is alpha or not
+ * _isalpha - A function if a char is alpha or not
  * @myChar: The char to be checked
  *
  * Return: True or False

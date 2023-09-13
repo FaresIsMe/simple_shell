@@ -4,7 +4,6 @@
  * _memset - a function to set some memory locations to a specfic value
  * @s: Pointer to the array
  * @b: The value that we want to set to
- 
  * @n: The number of bytes that we want to use
  * Description: Nothing
  * Return: pointer to the array
@@ -35,6 +34,7 @@ char *_memset(char *s, char b, unsigned int n)
 void freeAString(char **myPointer)
 {
 	char **myTemp = myPointer;
+
 	if (*myPointer == NULL)
 		return;
 	while (*myPointer != NULL)
