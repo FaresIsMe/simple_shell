@@ -10,7 +10,7 @@
 
 bool isInteractive(myInfoObject *myInfo)
 {
-	if (isatty(STDIN_FILENO) && (*myInfo).readingFd <= 2)
+	if (isatty(STDIN_FILENO) && (*myInfo).read_file_descriptor <= 2)
 		return (true);
 	else
 		return (false);
