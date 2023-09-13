@@ -30,10 +30,10 @@ char *GetHistoryFile(myInfoObject *myInfo)
 }
 /**
  *WriteHistory - writes in a history file it created or it existed
+ *@myInfo: اهلا بيك في مصر
  *
  *
- *
- *
+ *Return: 1 on success
 */
 int WriteHistory(myInfoObject *myInfo)
 {
