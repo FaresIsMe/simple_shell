@@ -86,3 +86,22 @@ int _cd_(myInfoObject *myInfo)
     return (0);
 
 }
+
+/**
+ * _help_ - useless ass function
+ * @take_in_your_ass: all of it
+ * 
+ * Return: 0 like you size ;)
+*/
+
+int _help_(myInfoObject *take_in_your_ass)
+{
+    char **amr_alnas;
+
+    amr_alnas = take_in_your_ass->arguments;
+    _puts("IDK what to say here nyhahahaha but function not implemented");
+
+    if (0)
+    _puts(*amr_alnas);
+    return (0);
+}
