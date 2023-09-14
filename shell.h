@@ -115,4 +115,11 @@ int put_fd(char c, int file_descriptor);
 int _puts_fd(char *string, int file_descriptor);
 void printingErros(myInfoObject *myInfo, char *myError);
 
+/*History functions*/
+int REM_History(myInfoObject *myInfo);
+int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
+char *GetHistoryFile(myInfoObject *myInfo);
+int WriteHistory(myInfoObject *myInfo);
+int ReadHistoryList(myInfoObject *myInfo);
+
 #endif
