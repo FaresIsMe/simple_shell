@@ -64,7 +64,7 @@ int _set_alias(myInfoObject *help, char *me)
 /**
  * PrintAlias - prints alias
  * @pain: good name
- * 
+ *
  * Return: 0 on success, 1 on error.
 */
 int PrintAlias(myList *pain)
