@@ -100,13 +100,6 @@ int _help_(myInfoObject *take_in_your_ass)
 	amr_alnas = take_in_your_ass->arguments;
 	_puts("IDK what to say here nyhahahaha but function not implemented");
 
-	/**
-	if (0)
-	_puts(*amr_alnas);
-	*/
+
 	return (0);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 86f504a938a4621b4e50568ec3a9a4c4ce726d99

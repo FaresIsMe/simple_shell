@@ -120,3 +120,4 @@ int man_alias(myInfoObject *myInfo)
 	}
 	return (0);
 }
+
