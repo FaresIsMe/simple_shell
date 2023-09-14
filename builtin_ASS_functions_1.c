@@ -41,6 +41,19 @@ int _cd_(myInfoObject *myInfo)
 	int AMR_dir;
 
 	current_dir = getcwd(FARES, 1024);
+<<<<<<< HEAD
+
+	if (!current_dir)
+	{
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+
+		if (!myInfo->arguments[1])
+		target_dir = gettingEnviormentVariable(FARES, 1024);
+
+		if (!target_dir)
+		target_dir = gettingEnviormentVariable(myInfo, "HOME=");
+
+=======
 	if (!current_dir)
 	{
 		_puts("TODO: >>getcwd failure emsg here<<\n");
@@ -48,6 +61,7 @@ int _cd_(myInfoObject *myInfo)
 		target_dir = gettingEnviormentVariable(FARES, 1024);
 		if (!target_dir)
 		target_dir = gettingEnviormentVariable(myInfo, "HOME=");
+>>>>>>> 06ec43068762072845f5dc05920184fc5d8c3310
 		AMR_dir = chdir(target_dir ? target_dir : "/");
 	}
 	else if (_strcmp(myInfo->arguments[1], "-") == 0)
@@ -80,6 +94,10 @@ int _cd_(myInfoObject *myInfo)
 		settingEnvVar(myInfo, "PWD", getcwd(FARES, "PWD="));
 	}
 	return (0);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 06ec43068762072845f5dc05920184fc5d8c3310
 }
 
 /**
@@ -96,5 +114,14 @@ int _help_(myInfoObject *take_in_your_ass)
 	amr_alnas = take_in_your_ass->arguments;
 	_puts("IDK what to say here nyhahahaha but function not implemented");
 
+<<<<<<< HEAD
+	/**
+	if (0)
+	_puts(*amr_alnas);
+	*/
 	return (0);
 }
+=======
+	return (0);
+}
+>>>>>>> 06ec43068762072845f5dc05920184fc5d8c3310
