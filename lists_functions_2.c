@@ -94,7 +94,7 @@ size_t gettingTheIndex(myList *myHead, myList *theRequiredNode)
  * Return: A pointer to the required node or NULL
 */
 
-myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar)
+myList *(myList *myHead, char *theSearchPre, char afterChar)
 {
 	char *myPointer = NULL;
 
