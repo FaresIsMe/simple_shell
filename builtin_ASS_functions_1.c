@@ -105,4 +105,8 @@ int _help_(myInfoObject *take_in_your_ass)
 	_puts(*amr_alnas);
 	*/
 	return (0);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 86f504a938a4621b4e50568ec3a9a4c4ce726d99
