@@ -87,3 +87,36 @@ int PrintAlias(myList *pain)
 		_puts("'\n");
 		return (0);
 }
+/**
+ *man_alias - man alias and shit
+ * @myInfo: f*ck off
+ *
+ * Return: zero.
+*/
+int man_alias(myInfoObject *myInfo)
+{
+		int i = 0;
+	char *pain = NULL;
+	myList *node = NULL;
+
+	if (myInfo->argument_count == 1)
+	{
+		node = myInfo->alias;
+		while (node)
+		{
+			PrintAlias(node);
+			node = node->next;
+		}
+		return (0);
+	}
+
+	for (i = 1; myInfo->arguments[i]; i++)
+	{
+		pain = _strchr(myInfo->arguments[i], '=');
+		if (pain)
+			_set_alias(myInfo, myInfo->arguments[i]);
+		else
+			PrintAlias(isNodeStartsWith(myInfo->alias, myInfo->arguments[i], '='));
+	}
+	return (0);
+}
