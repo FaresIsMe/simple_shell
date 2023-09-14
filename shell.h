@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <linux/types.h>
 
 #define MAX_BUFFER_SIZE 1024 /* max size of the buffer */
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
