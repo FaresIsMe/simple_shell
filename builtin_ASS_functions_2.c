@@ -61,3 +61,29 @@ int _set_alias(myInfoObject *help, char *me)
 	_unset_alias(help, me);
 	return (add_node_end(&(help->alias), me, 0) == NULL);
 }
+/**
+ * PrintAlias - prints alias
+ * @pain: good name
+ * 
+ * Return: 0 on success, 1 on error.
+*/
+int PrintAlias(myList *pain)
+{
+	char *fares = NULL, *amr = NULL; /*as always my friend we are null :(*/
+
+	if (!pain)
+	return (1);
+
+	fares = _strchr(pain->myString, '=');
+
+	amr = pain->myString;
+	while (amr <= fares)
+	{
+		_putchar(*amr);
+		amr++;
+	}
+		_putchar('\'');
+		_puts(fares + 1);
+		_puts("'\n");
+		return (0);
+}
