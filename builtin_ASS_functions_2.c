@@ -1,0 +1,63 @@
+#include "shell.h"
+
+/**
+ * print_history - for real?
+ * @game_of_thrones: good series
+ *
+ * Return: 0 after printing
+*/
+int print_history(myInfoObject *game_of_thrones)
+{
+	printingTheList(game_of_thrones->history);
+	return (0);
+}
+/**
+ * _unset_alias - it unsets an alias to be changed or whatever
+ * @die: die
+ * @dying: good
+ *
+ * Return: eminem
+*/
+int _unset_alias(myInfoObject *die, char *dying)
+{
+	int eminem;
+	char *amr, fares;
+
+	amr = _strchr(dying, '=');
+
+	if (amr == NULL)
+	return (1);
+
+	fares = amr;
+	*amr = '\0';
+
+	eminem = DeleteNodeIndex(&(die->alias),
+		gettingTheIndex(die->alias, isNodeStartsWith(die->alias, dying, -1)));
+
+	*amr = fares;
+
+	return (eminem);
+}
+/**
+ * _set_alias - -_-
+ * @help: me for real.
+ * @me: not him.
+ *
+ * Return: 1; otherwise, it returns 0.
+*/
+int _set_alias(myInfoObject *help, char *me)
+{
+	char *equal_sign, *alias_value;
+
+	equal_sign = _strchr(me, '=');
+	if (equal_sign == NULL)
+	return (1);   /*why 1? no idea but wtver*/
+
+	alias_value = equal_sign + 1;
+
+	if (*alias_value == NULL)
+	return (_unset_alias(help, me));
+
+	_unset_alias(help, me);
+	return (add_node_end(&(help->alias), me, 0) == NULL);
+}
