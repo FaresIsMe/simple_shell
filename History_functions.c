@@ -70,7 +70,8 @@ int WriteHistory(myInfoObject *myInfo)
  * 
  * Return: SUCK YOUR MOM
  * 
-*/int ReadHistoryList(myInfoObject *myInfo)
+*/
+int ReadHistoryList(myInfoObject *myInfo)
 {
 	int i, last = 0, linecount = 0;
 	int file_descriptor, read_length;
