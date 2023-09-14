@@ -29,10 +29,10 @@ int _exit_shell(myInfoObject *myInfo)
 }
 
 /**
+ * _cd_ - it changes between directories
+ * @myInfo: ..............
  * 
- * 
- * 
- * 
+ * Return: your mom is what it returns
 */
 
 int _cd_(myInfoObject *myInfo)
