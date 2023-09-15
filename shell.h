@@ -21,6 +21,7 @@
 #define AND_COMMAND 5
 #define OR_COMMAND 6
 #define CHAIN_COMMAND 7
+#define NORM_COMMAND 0
 
 extern char **environ;
 
