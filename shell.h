@@ -117,4 +117,57 @@ int put_fd(char c, int file_descriptor);
 int _puts_fd(char *string, int file_descriptor);
 void printingErros(myInfoObject *myInfo, char *myError);
 
+/*enviroment functions 1*/
+int printingEnviormentList(myInfoObject *myInfo);
+char *gettingEnviormentVariable(myInfoObject *myInfo, const char *myRVar);
+int preparnigForSettingEnv(myInfoObject *myInfo);
+int preparingForUnsettingEnv(myInfoObject *myInfo);
+int makingtheLinkedList(myInfoObject *myInfo);
+
+/*enviorment functions 2*/
+char **gettingMyEnviron(myInfoObject *myInfo);
+int unsetEnvVar(myInfoObject *myInfo, char *myVar);
+int settingEnvVar(myInfoObject *myInfo, char *myVar, char *myValue);
+
+/*commanding and path functions*/
+bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath);
+char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd);
+
+/*myInfo object functions*/
+void clearMyInfoVariable(myInfoObject *myInfo);
+void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv);
+
+/*some more functions*/
+char *convertor(long int num, int myBase, int myFlags);
+void removingComments(char *myBuffer);
+int errorToInteger(char *myError);
+
+/*linked list functions part 1*/
+size_t print_list(const myList *h);
+myList *addingNodeBeg(myList **myHead, const char *myString, int num);
+myList *add_node_end(myList **head, const char *str, int num);
+void free_list(myList **head);
+
+/*linked list functions part 2*/
+size_t linkedListLength(myList *myHead);
+size_t printingTheList(const myList *myHead);
+size_t gettingTheIndex(myList *myHead, myList *theRequiredNode);
+myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar);
+
+/*builtin Ass functions part 1*/
+int _exit_shell(myInfoObject *myInfo);
+int _cd_(myInfoObject *myInfo);
+int _help_(myInfoObject *take_in_your_ass);
+
+/*builtin Ass functions part 2*/
+int print_history(myInfoObject *game_of_thrones);
+int _unset_alias(myInfoObject *die, char *dying);
+int _set_alias(myInfoObject *help, char *me);
+int man_alias(myInfoObject *myInfo);
+
+/*
+	----------------
+	Not finished Yet -> To be continued
+	----------------
+*/
 #endif
