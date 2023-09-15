@@ -3,23 +3,22 @@
 
 /**
  * isExecutable - A function to check if the file is executable or not
- * @myInfo: A Pointer to myInfoObject variable
+ * @myP: A Pointer to myInfoObject variable
  * and it's not used in this function
  * @FaresPath: The path to the file that we want to check
- * 
+ *
  * Return: 0 on failling and 1 on success
 */
 
-bool isExecutable(__attribute__((unused)) myInfoObject *myInfo, char *FaresPath)
+bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath)
 {
 	struct stat myStatVar;
-	int myAndResult;
-	if (FaresPath == NULL || stat(FaresPath, &myStatVar))
-		return (0);
-	myAndResult = myStatVar.st_mode &  S_IFREG;
-	if (myAndResult)
-		return (1);
-	return(0);
+
+	if (FaresPath == NULL)
+		return (false);
+	if (stat(FaresPath, &myStatVar) != 0)
+		return (false);
+	return (S_ISREG & myStatVar.st_mode ? true : false);
 }
 
 /**
@@ -40,7 +39,7 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
 {
 	static char myBuffer[MAX_BUFFER_SIZE];
 	int i = 0, bufferPos;
-	
+
 	for (bufferPos = 0, i < myStart; i < myEnd; i++)
 	{
 		if (myPathStr[i] != ':')
@@ -52,3 +51,4 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
 	myBuffer[bufferPos] = '\0';
 	return (myBuffer);
 }
+

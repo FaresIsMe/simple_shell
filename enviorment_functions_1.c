@@ -52,12 +52,11 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
 {
 	if ((*myInfo).argument_count != 3)
 	{
-		_puts_fd("Not correct number of arguments\n", STDERR_FILENO);
-		return (1);
+		_puts_fd("Not correct number of arguments I think \n", STDERR_FILENO);
+		return 1;
 	}
-	if (setEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]) != 0)
-		return (1);
-	return (0);
+	int setEnvResult = setEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
+	return ((setEnvResult != 0) ? 1 : 0);
 }
 
 /**

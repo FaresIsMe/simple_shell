@@ -11,7 +11,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
-#include <linux/types.h>
 
 #define MAX_BUFFER_SIZE 1024 /* max size of the buffer */
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
@@ -19,6 +18,9 @@
 #define IS_UNSIGNED 1
 #define IS_LOWERCASE 2
 #define HISTORY_FILE ".simple_shell_history"
+#define AND_COMMAND 5
+#define OR_COMMAND 6
+#define CHAIN_COMMAND 7
 
 extern char **environ;
 
@@ -114,12 +116,5 @@ int _atoi(char *s);
 int put_fd(char c, int file_descriptor);
 int _puts_fd(char *string, int file_descriptor);
 void printingErros(myInfoObject *myInfo, char *myError);
-
-/*History functions*/
-int REM_History(myInfoObject *myInfo);
-int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
-char *GetHistoryFile(myInfoObject *myInfo);
-int WriteHistory(myInfoObject *myInfo);
-int ReadHistoryList(myInfoObject *myInfo);
 
 #endif
