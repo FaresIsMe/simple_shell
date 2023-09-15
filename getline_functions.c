@@ -12,6 +12,8 @@ void handle_sigin(__attribute__((unused))int empty)
     _puts("$ ");
     _putchar(BUFFER_FLUSH_CONDITION);
 }
+
+
 /**
  * _getline - gets the line from standard input
  * @myInfo: I don't know man leave me alone
@@ -81,4 +83,21 @@ int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
     return (line_len == 0 && read_len == 0 ? -1 : line_len);
 }
 
+/**
+ * read_buf  -  function reads data from a file descriptor into a buffer
+ * @myInfo: idk
+ * @
+ * 
+*/
+ssize_t read_buf(myInfoObject *myInfo, char *buffer, size_t *i)
+{
+    ssize_t read_val = 0;
 
+    if (*i == 0) {
+        read_val = read(myInfo->read_file_descriptor, buffer, MAX_BUFFER_SIZE);
+        if (read_val >= 0) {
+            *i = read_val;
+        }
+    }
+    return (read_val);
+}
