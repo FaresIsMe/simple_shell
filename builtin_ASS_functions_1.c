@@ -43,17 +43,16 @@ int _cd_(myInfoObject *myInfo)
 	current_dir = getcwd(FARES, 1024);
 
 	if (!current_dir)
-	{
 		_puts("TODO: >>getcwd failure emsg here<<\n");
 
 		if (!myInfo->arguments[1])
-		target_dir = gettingEnviormentVariable(FARES, 1024);
+		{
+			target_dir = gettingEnviormentVariable(FARES, 1024);
 
-		if (!target_dir)
-		target_dir = gettingEnviormentVariable(myInfo, "HOME=");
-
-		AMR_dir = chdir(target_dir ? target_dir : "/");
-	}
+			if (!target_dir)
+			target_dir = gettingEnviormentVariable(myInfo, "HOME=");
+			AMR_dir = chdir(target_dir ? target_dir : "/");
+		}
 	else if (_strcmp(myInfo->arguments[1], "-") == 0)
 	{
 		target_dir = gettingEnviormentVariable(myInfo, "OLDPWD=");
