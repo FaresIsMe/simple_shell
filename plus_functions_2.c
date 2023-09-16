@@ -6,7 +6,7 @@
  * @myInfo: A pointer to myInfo variable
  * @myError: A pointer to string that cointains
  * the error string
- * 
+ *
  * Return: Nothing (void)
 */
 
@@ -24,8 +24,8 @@ void printingErrors(myInfoObject *myInfo, char *myError)
 /**
  * convertor - converter function, a clone of itoa
  * @num: number
- * @base: base
- * @flags: argument flags
+ * @myBase: base
+ * @myFlags: argument flags
  *
  * Return: string
  */
@@ -54,7 +54,7 @@ char *convertor(long int num, int myBase, int myFlags)
 		ptr = ptr - 1;
 		*ptr = numbersArray[conditionNum % myBase];
 		conditionNum = conditionNum / myBase;
-	} while(conditionNum);
+	} while (conditionNum);
 
 	if (theSign != 0)
 	{
@@ -68,10 +68,10 @@ char *convertor(long int num, int myBase, int myFlags)
  * removingComments - A function to remove comments from a buffer
  * passed to it
  * @myBuffer: A Pointer to string which is the buffer
- * 
+ *
  * echo "My name is Amr" # (example)
  * #echo "My name is Amr"
- * Return: Nothing (void) 
+ * Return: Nothing (void)
 */
 
 void removingComments(char *myBuffer)
@@ -81,10 +81,10 @@ void removingComments(char *myBuffer)
 	for (theLooperF = 0; *(myBuffer + theLooperF) != '\0'; theLooperF++)
 	{
 		if (*(myBuffer + theLooperF)  == '#'
-		&& (theLooperF == 0 || myBuffer[theLooperF- 1] == ' '))
+		&& (theLooperF == 0 || myBuffer[theLooperF - 1] == ' '))
 		{
 			*(myBuffer + theLooperF) = '\0';
-		break;   
+			break;
 		}
 	}
 }
@@ -93,7 +93,7 @@ void removingComments(char *myBuffer)
  * errorToInteger - A function to convert an error to integer
  * @myError: A pointer to a string that represnts
  * the error
- * 
+ *
  * Return: 0 on Success and -1 on Failure
 */
 
@@ -106,7 +106,7 @@ int errorToInteger(char *myError)
 		myError = myError + 1;
 	for (AmrLooper; myError[AmrLooper]; AmrLooper++)
 	{
-		if(myError[AmrLooper] >= '0' && myError[AmrLooper] <= '9')
+		if (myError[AmrLooper] >= '0' && myError[AmrLooper] <= '9')
 		{
 			finalResult = finalResult * 10 + (myError[AmrLooper] - '0');
 			if (finalResult > INT_MAX)
@@ -131,10 +131,10 @@ int errorToInteger(char *myError)
 
 int printingDecimal(int myInput, int fileD)
 {
-	int (* myPrintFunction)(char) = _putchar;
+	int (*myPrintFunction)(char) = _putchar;
 	int i, printedChars = 0;
 	unsigned int myAbsolute, myCurrent;
-	unsigned myDivisor = 1000000000;
+	unsigned int myDivisor = 1000000000;
 
 	if (fileD == STDERR_FILENO)
 		myPrintFunction = _errorputchar;

@@ -45,10 +45,10 @@ int _puts_fd(char *string, int file_descriptor)
 }
 
 /**
- * -errorputchar - A function to print errors 
+ * _errorputchar - A function to print errors
  * to the standard error
  * @myChar: The char to be printed to the standard error
- * 
+ *
  * Return: The number of the chars that was printed
 */
 
@@ -70,7 +70,7 @@ int _errorputchar(char myChar)
 }
 
 /**
- * -errorputschar - A function to put a string on the
+ * _errorputschar - A function to put a string on the
  * standard error
  * @myString: A pointer to the string that will be
  * printed to the standard error

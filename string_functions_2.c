@@ -68,11 +68,11 @@ char *_strchr(const char *myString, char myChar)
 {
 	if (myString == NULL)
 		return (NULL);
-	while(*myString != '\0' && *myString != myChar)
+	while (*myString != '\0' && *myString != myChar)
 		myString = myString + 1;
 	if (*myString == myChar)
 		return (myString);
 	else
-		return (NULL);	
+		return (NULL);
 }
 

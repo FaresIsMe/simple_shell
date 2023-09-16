@@ -23,7 +23,7 @@ char *_memset(char *s, char b, unsigned int n)
 }
 
 /**
- * freeString - A function to free a string
+ * freeAString - A function to free a string
  * @myPointer: It's a function to free an array
  * of strings so this means we should have a pointer
  * to a pointer
@@ -34,7 +34,7 @@ char *_memset(char *s, char b, unsigned int n)
 void freeAString(char **myPointer) /*fFree*/
 {
 	char **myTemp = myPointer;
-	
+
 	if (*myPointer == NULL || myPointer == NULL)
 		return;
 	while (*myPointer != NULL)

@@ -41,7 +41,7 @@ char *gettingEnviormentVariable(myInfoObject *myInfo, const char *myRVar)
 }
 
 /**
- * preparingForSettingEnv - A function to prepare the setting enviorment
+ * preparnigForSettingEnv - A function to prepare the setting enviorment
  * function to do its work
  * @myInfo: A pointer to info variable
  *
@@ -50,13 +50,15 @@ char *gettingEnviormentVariable(myInfoObject *myInfo, const char *myRVar)
 
 int preparnigForSettingEnv(myInfoObject *myInfo)
 {
+	int sER;
+
 	if ((*myInfo).argument_count != 3)
 	{
 		_puts_fd("Not correct number of arguments I think \n", STDERR_FILENO);
-		return 1;
+		return (1);
 	}
-	int setEnvResult = setEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
-	return ((setEnvResult != 0) ? 1 : 0);
+	sER = setEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
+	return ((sER != 0) ? 1 : 0);
 }
 
 /**

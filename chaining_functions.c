@@ -87,7 +87,7 @@ void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myLen)
 
 /**
  * replacingMyAliases - A function to get my alias from the list
- * @MyInfo: A pointer to myInfoObject that contains everything
+ * @myInfo: A pointer to myInfoObject that contains everything
  * about the shell
  *
  * Return: false on failure and true on success
