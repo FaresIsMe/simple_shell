@@ -84,6 +84,90 @@ void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myLen)
 	*myPo = amrCounter;
 }
 
+
+/**
+ * replacingMyAliases - A function to get my alias from the list
+ * @MyInfo: A pointer to myInfoObject that contains everything
+ * about the shell
+ *
+ * Return: false on failure and true on success
+*/
+
+bool replacingMyAliases(myInfoObject *myInfo)
+{
+	int i;
+	char *myPointer;
+	myList *myHead;
+
+	for (i = 0; i < MAX_ALIASES_COUNT; i++)
+	{
+		myHead = isNodeStartsWith((*myInfo).alias, (*myInfo).arguments[0], '=');
+		if (myHead == NULL)
+			return (false);
+		free((*myInfo).arguments[0]);
+		myPointer = _strchr((*myHead).myString, '=');
+		if (myPointer == NULL)
+			return (false);
+		myPointer = _strdup(myPointer + 1);
+		if (myPointer == NULL)
+			return (false);
+		(*myInfo).arguments[0] = myPointer;
+	}
+	return (true);
+}
+
+/**
+ * replacingMyVariables - A function to replace variables that are
+ * in my enviorment
+ * @myInfo: A pointer to myInfoObject variable
+ *
+ * Return: 0 on success and 1 on failure
+*/
+
+bool replacingMyVariables(myInfoObject *myInfo)
+{
+	int i;
+	myList *myHead;
+	char *myPointer;
+
+	for (i = 0; (*myInfo).arguments[i] != NULL; i++)
+	{
+		if ((*myInfo).arguments[i][0] != '$' ||
+		(*myInfo).arguments[i][1] == NULL)
+			continue;
+		if (_strcmp((*myInfo).arguments[i], "$?") == 0)
+		{
+			myPointer = _strdup(convertor(
+				(*myInfo).status, 10, 0));
+			if (myPointer == NULL)
+				return (true);
+			replacingNewandOldStrings(&((*myInfo).arguments[i]), myPointer);
+			continue;
+		}
+		else if (_strcmp((*myInfo).arguments[i], "$$") == 0)
+		{
+			myPointer = _strdup(convertor(
+				getpid(), 10, 0));
+			if (myPointer == NULL)
+				return (true);
+			replacingNewandOldStrings(&((*myInfo).arguments[i]), myPointer);
+			continue;
+		}
+		myHead = isNodeStartsWith(myInfo->environment
+		, &(myInfo->arguments[i][1]), '=');
+		if (myHead != NULL)
+		{
+			myPointer = _strdup(_strchr((*myHead).myString, '=') + 1);
+			if (myPointer == NULL)
+				return (true);
+			replacingNewandOldStrings(&((*myInfo).arguments[i]), myPointer);
+			continue;
+		}
+		replacingNewandOldStrings(&((*myInfo).arguments[i]), "");
+	}
+	return (false);
+}
+
 /**
  * replacingNewandOldStrings - A function to replace strings
  * @theOldOne: A pointer to a pointer that points
