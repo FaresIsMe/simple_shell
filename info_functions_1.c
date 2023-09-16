@@ -46,7 +46,40 @@ void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv)
 		;
 		(*myInfo).argument_count = i;
 	}
-	replacingAlliasing(myInfo);
-	replacingVariables(myInfo);
+	replacingMyAliases(myInfo);
+	replacingMyVariables(myInfo);
 }
 
+/**
+ * freeMyInfo - A function to free the members of myInfo object
+ * @myInfo: A pointer to myInfoObject variable
+ * @allCondition: The condition to check if if we're going
+ * to free some more members
+ *
+ * Return: Nothing (void)
+*/
+
+void freeMyInfo(myInfoObject *myInfo, int allCondition)
+{
+	(*myInfo).path = NULL;
+	freeAString((*myInfo).arguments);
+	(*myInfo).arguments = NULL;
+	
+	if (allCondition != 0)
+	{
+		if ((*myInfo).command_buffer != NULL)
+			free((*myInfo).argument);
+		if ((*myInfo).environment != NULL)
+			free(&(*myInfo).environment);
+		if ((*myInfo).history != NULL)
+			free(&(*myInfo).history);
+		if ((*myInfo).alias != NULL)
+			free(&(*myInfo).alias);
+		if ((*myInfo).environ != NULL)
+			free((*myInfo).environ);
+		if ((*myInfo).read_file_descriptor > 2)
+			close((*myInfo).read_file_descriptor);
+		freeNulling((void **)(*myInfo).command_buffer);
+		_putchar(BUFFER_FLUSH_CONDITION);
+	}
+}

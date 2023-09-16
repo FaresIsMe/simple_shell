@@ -100,7 +100,7 @@ int makingtheLinkedList(myInfoObject *myInfo)
 
 	for (; environ[listSize] != NULL; listSize++)
 	{
-		tempHead = (listHead, environ[listSize], 0);
+		tempHead = add_node_end(listHead, environ[listSize], 0);
 		if (tempHead == NULL)
 			return (1);
 	}

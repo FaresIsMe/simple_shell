@@ -23,7 +23,7 @@
 #define OR_COMMAND 6
 #define CHAIN_COMMAND 7
 #define NORM_COMMAND 0
-
+#define MAX_ALIASES_COUNT 15
 extern char **environ;
 
 typedef struct myNewList

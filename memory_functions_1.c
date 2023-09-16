@@ -31,11 +31,11 @@ char *_memset(char *s, char b, unsigned int n)
  * Return: nothing
 */
 
-void freeAString(char **myPointer)
+void freeAString(char **myPointer) /*fFree*/
 {
 	char **myTemp = myPointer;
-
-	if (*myPointer == NULL)
+	
+	if (*myPointer == NULL || myPointer == NULL)
 		return;
 	while (*myPointer != NULL)
 	{
@@ -53,9 +53,9 @@ void freeAString(char **myPointer)
  * Return: true or false
 */
 
-bool freeNulling(char **myPointer)
+bool freeNulling(char **myPointer) /*bFree*/
 {
-	while (myPointer != NULL && *myPointer != NULL)
+	if (myPointer != NULL && *myPointer != NULL)
 	{
 		free(*myPointer);
 		myPointer = NULL;

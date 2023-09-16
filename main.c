@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 			if (errno == ENOENT)
 			{
 				_puts(argv[0]);
-				_puts(": 0; Can't opn");
+				_puts(": 0; Can't open");
 				_puts(argv[1]);
 				_putchar('\n');
 				_putchar(BUFFER_FLUSH_CONDITION);
