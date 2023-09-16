@@ -117,3 +117,48 @@ int errorToInteger(char *myError)
 	}
 	return (finalResult);
 }
+
+/**
+ * printingDecimal - A function to print the decimal numbers to the
+ * standard output or standard error
+ * @myInput: The number to be printed
+ * @fileD: The file desciptor that deterimines that
+ * we're going to print on the standard output
+ * or standard error
+ *
+ * Return: The number of chars that were printed
+*/
+
+int printingDecimal(int myInput, int fileD)
+{
+	int (* myPrintFunction)(char) = _putchar;
+	int i, printedChars = 0;
+	unsigned int myAbsolute, myCurrent;
+	unsigned myDivisor = 1000000000;
+
+	if (fileD == STDERR_FILENO)
+		myPrintFunction = _errorputchar;
+	if (myInput < 0)
+	{
+		myAbsolute = -myInput;
+		myPrintFunction('-');
+		printedChars = printedChars + 1;
+	}
+	else
+		myAbsolute = myInput;
+	myCurrent = myAbsolute;
+	while (myDivisor >= 1)
+	{
+		if (myCurrent / myDivisor != 0)
+		{
+			myPrintFunction(myCurrent / myDivisor + '0');
+			printedChars = printedChars + 1;
+		}
+		myCurrent = myCurrent % myDivisor;
+		myDivisor = myDivisor / 10;
+	}
+	myPrintFunction(myCurrent + '0');
+	printedChars = printedChars + 1;
+
+	return (printedChars);
+}

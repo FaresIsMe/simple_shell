@@ -43,3 +43,46 @@ int _puts_fd(char *string, int file_descriptor)
 
 	return (i);
 }
+
+/**
+ * -errorputchar - A function to print errors 
+ * to the standard error
+ * @myChar: The char to be printed to the standard error
+ * 
+ * Return: The number of the chars that was printed
+*/
+
+int _errorputchar(char myChar)
+{
+	static int i;
+	static char buffer[MAX_BUFFER_SIZE];
+
+	if (myChar == BUFFER_FLUSH_CONDITION || MAX_BUFFER_SIZE <= i)
+	{
+		write(STDERR_FILENO, buffer, i);
+		i = 0;
+	}
+	if (myChar != BUFFER_FLUSH_CONDITION)
+	{
+		buffer[i++] = myChar;
+	}
+	return (1);
+}
+
+/**
+ * -errorputschar - A function to put a string on the
+ * standard error
+ * @myString: A pointer to the string that will be
+ * printed to the standard error
+ *
+ * Return: Nothing (void)
+*/
+
+void _errorputschar(char *myString)
+{
+	if (!myString)
+	return;
+
+	while (*myString)
+		_eputchar(*myString++);
+}

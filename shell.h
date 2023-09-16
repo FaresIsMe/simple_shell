@@ -118,6 +118,8 @@ int _atoi(char *s);
 int put_fd(char c, int file_descriptor);
 int _puts_fd(char *string, int file_descriptor);
 void printingErros(myInfoObject *myInfo, char *myError);
+int _errorputchar(char myChar);
+void _errorputschar(char *myString);
 
 /*enviroment functions 1*/
 int printingEnviormentList(myInfoObject *myInfo);

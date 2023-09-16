@@ -31,7 +31,7 @@ bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath)
  * @myEnd: The end of the path string
  * that we want to end the exctracting
  *
- * Return: A pointer to the buffer that contains
+ * Return: A p ointer to the buffer that contains
  * the sub-string
 */
 
@@ -51,4 +51,3 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
 	myBuffer[bufferPos] = '\0';
 	return (myBuffer);
 }
-
