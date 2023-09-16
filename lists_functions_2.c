@@ -78,7 +78,7 @@ char **convertingNodeStringstoArray(myList *myHead)
             for (unsigned int j = 0; j < i; j++)
                 free(stringArrayPointer[j]);
             free(stringArrayPointer);
-            return NULL;
+            return (NULL);
         }
         _strcpy(tempStr, currentNode->myString);
         stringArrayPointer[i] = tempStr;
@@ -87,7 +87,7 @@ char **convertingNodeStringstoArray(myList *myHead)
     }
     stringArrayPointer[i] = NULL;
 
-    return stringArrayPointer;
+    return (stringArrayPointer);
 }
 
 /**
