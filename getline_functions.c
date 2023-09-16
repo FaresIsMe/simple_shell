@@ -13,7 +13,6 @@ void handle_sigin(__attribute__((unused))int empty)
 	_putchar(BUFFER_FLUSH_CONDITION);
 }
 
-
 /**
  * _getline - gets the line from standard input
  * @myInfo: I don't know man leave me alone
@@ -87,7 +86,7 @@ int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
  *
  *Return: the read size in bytes
 */
-ssize_t read_buf(myInfoObject *myInfo, char *buffer, size_t *i)
+ssize_t ReadBuffer(myInfoObject *myInfo, char *buffer, size_t *i)
 {
 	ssize_t read_val = 0;
 
@@ -141,5 +140,46 @@ ssize_t GetInput(myInfoObject *myInfo)
 	}
 
 	*currentCommand = commandChainBuffer;
+	return (bytesRead);
+}
+/**
+ * 
+ * 
+ * 
+ * 
+*/
+ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
+{
+	ssize_t bytesRead = 0;
+	size_t newLength = 0;
+
+	if (*length == 0)
+	{
+		free(*buffer);
+		*buffer = NULL;
+		signal(SIGINT, handle_sigin);
+#if USE_GETLINE
+		bytesRead = getline(buffer, &newLength, stdin);
+#else
+		bytesRead = _getline(myInfo, buffer, &newLength);
+#endif
+		if (bytesRead > 0)
+		{
+			if ((*buffer)[bytesRead - 1] == '\n')
+			{
+				(*buffer)[bytesRead - 1] = '\0'; 
+				bytesRead--;
+			}
+			myInfo->linecount_flag = 1;
+			removingComments(*buffer);
+			BuildHistoryList(myInfo, *buffer, myInfo->history_count++);
+			
+			if (_strchr(*buffer, ';'))
+			{
+				*length = bytesRead;
+				myInfo->command_buffer = buffer;
+			}
+		}
+	}
 	return (bytesRead);
 }

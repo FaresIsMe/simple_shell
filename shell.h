@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <signal.h>
 
 #define MAX_BUFFER_SIZE 1024 /* max size of the buffer */
 #define BUFFER_FLUSH_CONDITION -1 /* the condition when we flush */
@@ -166,6 +167,12 @@ int _unset_alias(myInfoObject *die, char *dying);
 int _set_alias(myInfoObject *help, char *me);
 int man_alias(myInfoObject *myInfo);
 
+/* geline */
+void handle_sigin(__attribute__((unused))int empty);
+int _getline(myInfoObject *myInfo, char **lineptr, size_t *n);
+ssize_t ReadBuffer(myInfoObject *myInfo, char *buffer, size_t *i);
+ssize_t GetInput(myInfoObject *myInfo);
+ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length);
 /*
 	----------------
 	Not finished Yet -> To be continued
