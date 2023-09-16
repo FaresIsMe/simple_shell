@@ -52,6 +52,43 @@ size_t printingTheList(const myList *myHead)
 	return (AmrSize);
 }
 
+/**
+ * convertingNodeStringtoArray - A function to convert the strings
+ * for a linked list to array of strings
+ * @myHead: A pointer to the head of the linked list
+ * 
+ * Return: A pointer to array of strings or NULL
+*/
+
+char **convertingNodeStringstoArray(myList *myHead)
+{
+	unsigned int length = linkedListLength(myHead);
+	char **stringArrayPointer = malloc(sizeof(char *) * (length + 1));
+	myList *currentNode = myHead;
+	unsigned int i = 0, j = 0;
+	char *tempStr;
+
+    if (myHead == NULL || length == 0 || stringArrayPointer == NULL )
+		return (NULL);
+    while (currentNode != NULL)
+    {
+        tempStr = malloc(_strlen(currentNode->myString) + 1);
+        if (tempStr == NULL)
+        {
+            for (unsigned int j = 0; j < i; j++)
+                free(stringArrayPointer[j]);
+            free(stringArrayPointer);
+            return NULL;
+        }
+        _strcpy(tempStr, currentNode->myString);
+        stringArrayPointer[i] = tempStr;
+        currentNode = currentNode->next;
+        i++;
+    }
+    stringArrayPointer[i] = NULL;
+
+    return stringArrayPointer;
+}
 
 /**
  * gettingTheIndex - A function to get the index of a node
