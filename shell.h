@@ -150,7 +150,7 @@ int _atoi(char *s);
 /*errors functions*/
 int put_fd(char c, int file_descriptor);
 int _puts_fd(char *string, int file_descriptor);
-void printingErros(myInfoObject *myInfo, char *myError);
+void printingErrors(myInfoObject *myInfo, char *myError);
 int _errorputchar(char myChar);
 void _errorputschar(char *myString);
 

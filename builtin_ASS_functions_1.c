@@ -17,7 +17,7 @@ int _exit_shell(myInfoObject *myInfo)
 		if (get_the_fuck_out_check == -1)
 		{
 			myInfo->status = 2;
-			printingErros(myInfo, "Illegal number: ");
+			printingErrors(myInfo, "Illegal number: ");
 			_puts(myInfo->arguments[1]);
 			_putchar('\n');
 		}
@@ -72,7 +72,7 @@ int _cd_(myInfoObject *myInfo)
 	}
 	if (AMR_dir == -1)
 	{
-		printingErros(myInfo, "can't cd to ");
+		printingErrors(myInfo, "can't cd to ");
 		_puts(target_dir);
 		_putchar('\n');
 	}

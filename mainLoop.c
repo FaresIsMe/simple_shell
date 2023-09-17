@@ -79,7 +79,7 @@ void forkingMyCmd(myInfoObject *myInfo)
 		{
 			(*myInfo).status = WEXITSTATUS((*myInfo).status);
 			if ((*myInfo).status == 126)
-				printingErros(myInfo, "Permission denied\n");
+				printingErrors(myInfo, "Permission denied\n");
 		}
 	}
 }
@@ -128,7 +128,7 @@ void findingCommandLastTime(myInfoObject *myInfo)
 		else if (*(*myInfo).argument != '\n')
 		{
 			(*myInfo).status = 127;
-			printingErros(myInfo, "not found\n");
+			printingErrors(myInfo, "not found\n");
 		}
 	}
 }
