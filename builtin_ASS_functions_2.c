@@ -28,10 +28,10 @@ int _unset_alias(myInfoObject *die, char *dying)
 	if (amr == NULL)
 	return (1);
 
-	fares = amr;
+	fares = *amr;
 	*amr = '\0';
 
-	eminem = DeleteNodeIndex(&(die->alias),
+	eminem = delete_nodeint_at_index(&(die->alias),
 		gettingTheIndex(die->alias, isNodeStartsWith(die->alias, dying, -1)));
 
 	*amr = fares;
@@ -51,11 +51,12 @@ int _set_alias(myInfoObject *help, char *me)
 
 	equal_sign = _strchr(me, '=');
 	if (equal_sign == NULL)
-	return (1);   /*why 1? no idea but wtver*/
+	return (1);
 
-	alias_value = equal_sign + 1;
+	alias_value = equal_sign;
+	alias_value++;
 
-	if (*alias_value == NULL)
+	if (!*alias_value)
 	return (_unset_alias(help, me));
 
 	_unset_alias(help, me);
