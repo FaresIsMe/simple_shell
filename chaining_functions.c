@@ -60,25 +60,25 @@ bool isThereChaining(myInfoObject *myInfo, char *myBuffer, int *FaresPos)
  * @myPo: A pointer that points to the place that
  * we're now on the command
  * @i: The beginning of the buffer
- * @myLen: The length of the buffer
+ * @myL: The length of the buffer
  *
  * Return: Nothing (void)
 */
 
 
-void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myLen)
+void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myL)
 {
 	size_t amrCounter = *myPo;
 
 	if (myI->command_buffer_type == AND_COMMAND && myI->status)
 	{
 		myBuf[i] = '\0';
-		amrCounter = myLen;
+		amrCounter = myL;
 	}
 	else if (myI->command_buffer_type == OR_COMMAND && myI->status == 0)
 	{
 		myBuf[i] = '\0';
-		amrCounter = myLen;
+		amrCounter = myL;
 	}
 
 	*myPo = amrCounter;

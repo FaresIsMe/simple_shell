@@ -10,7 +10,7 @@
  * Return: 0 on failling and 1 on success
 */
 
-bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath)
+bool isExecutable(__attribute__((unused)) myInfoObject * myP, char *FaresPath)
 {
 	struct stat myStatVar;
 
@@ -58,7 +58,7 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
  * @myInfo: A pointer to myInfoObject variable
  * @pathEnvVar: The PATH enviorment variable
  * @myCommand: The required command to be execuated
- * 
+ *
  * Return: A pointer to the full path or NULL
 */
 
@@ -76,7 +76,7 @@ char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
 	}
 	while (true)
 	{
-		if (pathEnvVar[i] == '\0'|| pathEnvVar[i] == ':')
+		if (pathEnvVar[i] == '\0' || pathEnvVar[i] == ':')
 		{
 			myEndPath = strdub(pathEnvVar, myCurrentPos, i);
 			if (*myEndPath == NULL)

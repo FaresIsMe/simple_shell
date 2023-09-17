@@ -45,7 +45,7 @@ typedef struct myNewList
 /**
  * struct builtinCommand - A struct that is created
  * to deal with the builtin commands and their names
- * @nameOfFunction: A string that conatins the
+ * @nameofFunction: A string that conatins the
  * name of the function
  * @myCommandFun: A pointer to a function
  * that its name matches with the previous member
@@ -212,7 +212,7 @@ ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length);
 
 /*chaining functions*/
 bool isThereChaining(myInfoObject *myInfo, char *myBuffer, int *FaresPos);
-void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myLen);
+void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myL);
 bool replacingMyAliases(myInfoObject *myInfo);
 bool replacingMyVariables(myInfoObject *myInfo);
 bool replacingNewandOldStrings(char **theOldOne, char *theNewOne);
@@ -225,9 +225,9 @@ int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
 int REM_History(myInfoObject *myInfo);
 
 /*
-	----------------
-	Not finished Yet -> To be continued
-	----------------
+ *	----------------
+ *	Not finished Yet -> To be continued
+ *	----------------
 */
 
 #endif
