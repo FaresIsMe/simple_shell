@@ -27,21 +27,18 @@ int _strlen(char *str)
 */
 int _strcmp(char *str1, char *str2)
 {
-	while (str1 && str2)
-	{
-		if (*str1 != *str2)
-		return (str1 - str2);
+    while (*str1 && *str2 && (*str1 == *str2))
+    {
+        str1++;
+        str2++;
+    }
 
-		*str1++;
-		*str2++;
-	}
-	if (*str1 == *str2)
-	return (0);
-
-	if (str1 > str2)
-	return (1);
-	else
-	return (0);
+    if (*str1 == *str2)
+        return 0;
+    else if (*str1 > *str2)
+        return 1;
+    else
+        return -1;
 }
 /**
  * _strcat -  concatenates two strings

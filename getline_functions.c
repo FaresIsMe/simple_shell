@@ -75,7 +75,7 @@ int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
 	if (n)
 		*n = line_len;
 	line[line_len] = '\0';
-	return (line_len == 0 && read_len == 0 ? -1 : line_len);
+	return (line_len == 0 && read_len == 0 ? -1 : (int)line_len);
 }
 
 /**
@@ -113,7 +113,7 @@ ssize_t GetInput(myInfoObject *myInfo)
 	char **currentCommand = &(myInfo->argument), *currentPositionPtr;
 
 	_putchar(BUFFER_FLUSH_CONDITION);
-	bytesRead = Input_buffer(myInfo, &commandChainBuffer, &bufferLength);
+	bytesRead = InputBuffer(myInfo, &commandChainBuffer, &bufferLength);
 	if (bytesRead == -1)
 		return (-1);
 
@@ -143,10 +143,12 @@ ssize_t GetInput(myInfoObject *myInfo)
 	return (bytesRead);
 }
 /**
+ * InputBuffer - chained buffer commands
+ * @myInfo: struct parameter
+ * @buffer: buffer's address
+ * @length: address of the variable length 
  * 
- * 
- * 
- * 
+ * Return: size of bytes read.
 */
 ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
 {
