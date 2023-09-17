@@ -42,7 +42,7 @@ int _cd_(myInfoObject *myInfo)
 
 	current_dir = getcwd(FARES, 1024);
 
-	if (!current_dir)
+	if (current_dir == NULL)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
 
 		if (!myInfo->arguments[1])

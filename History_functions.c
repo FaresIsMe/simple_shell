@@ -59,7 +59,7 @@ int WriteHistory(myInfoObject *myInfo)
 		put_fd('\n', file_descriptor);
 	}
 
-	_puts_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
+	put_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
 	close(file_descriptor);
 
 	return (1);
@@ -74,11 +74,13 @@ int WriteHistory(myInfoObject *myInfo)
 int ReadHistoryList(myInfoObject *myInfo)
 {
 	int i, last = 0, linecount = 0;
-	int file_descriptor, read_length;
+	ssize_t file_descriptor, read_length;
 	struct stat file_stats;
 	char *buffer = NULL, *filename;
 
 	filename = GetHistoryFile(myInfo);
+
+	file_descriptor = open(filename, O_RDONLY);
 
 	if (!filename)
 	return (0);
