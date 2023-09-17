@@ -23,6 +23,7 @@ int put_fd(char c, int file_descriptor)
 	}
 	return (1);
 }
+
 /**
  *  _puts_fd - like _puts it uses put_fd to write to the file
  * @string: The string

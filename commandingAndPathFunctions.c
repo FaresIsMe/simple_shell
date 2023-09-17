@@ -31,7 +31,7 @@ bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath)
  * @myEnd: The end of the path string
  * that we want to end the exctracting
  *
- * Return: A p ointer to the buffer that contains
+ * Return: A pointer to the buffer that contains
  * the sub-string
 */
 
@@ -50,4 +50,48 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
 	}
 	myBuffer[bufferPos] = '\0';
 	return (myBuffer);
+}
+
+
+/**
+ * jOFP - A function to find the path of the required command
+ * @myInfo: A pointer to myInfoObject variable
+ * @pathEnvVar: The PATH enviorment variable
+ * @myCommand: The required command to be execuated
+ * 
+ * Return: A pointer to the full path or NULL
+*/
+
+char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
+{	/*journey of finding path*/
+	int i = 0, myCurrentPos = 0;
+	char *myEndPath;
+
+	if (pathEnvVar == NULL)
+		return (NULL);
+	if ((_strlen(myCommand) > 2) && startsWith(myCommand, "./"))
+	{
+		if (isExecutable(myInfo, myCommand))
+			return (myCommand);
+	}
+	while (true)
+	{
+		if (pathEnvVar[i] == '\0'|| pathEnvVar[i] == ':')
+		{
+			myEndPath = strdub(pathEnvVar, myCurrentPos, i);
+			if (*myEndPath == NULL)
+				_strcat(myEndPath, myCommand);
+			else
+			{
+				_strcat(myEndPath, '/');
+				_strcat(myEndPath, myCommand);
+			}
+			if (isExecutable(myInfo, myEndPath) == true)
+				return (myEndPath);
+			if (pathEnvVar[i] == '\0')
+				break;
+			myCurrentPos = i;
+		}
+	}
+	return (NULL);
 }

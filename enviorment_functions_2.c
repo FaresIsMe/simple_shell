@@ -13,7 +13,7 @@ char **gettingMyEnviron(myInfoObject *myInfo)
 {
 	if ((*myInfo).environment_changed == 1 || (*myInfo).environ == NULL)
 	{
-		(*myInfo).environ = turningListsToStrings((*myInfo).environment);
+		(*myInfo).environ = convertingNodeStringstoArray((*myInfo).environment);
 		(*myInfo).environment_changed = 0;
 	}
 	return ((*myInfo).environ);

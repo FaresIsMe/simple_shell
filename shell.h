@@ -26,12 +26,36 @@
 #define MAX_ALIASES_COUNT 15
 extern char **environ;
 
+/**
+ * struct myNewList - A struct that makes a linked
+ * list that makes my enviorment variables
+ * @theNum: The number of the node
+ * @myString: The string that is contained in the
+ * node
+ * @next: A pointer to the next node
+*/
+
 typedef struct myNewList
 {
 	int theNum;
 	char *myString;
 	struct myNewList *next;
 } myList;
+
+/**
+ * struct builtinCommand - A struct that is created
+ * to deal with the builtin commands and their names
+ * @nameOfFunction: A string that conatins the
+ * name of the function
+ * @myCommandFun: A pointer to a function
+ * that its name matches with the previous member
+*/
+
+typedef struct builtinCommand
+{
+	char *nameofFunction;
+	int (*myCommandFun)(myInfoObject *);
+} myBuiltin;
 
 /**
  * struct pass_inf - contains pseudo-arguments to pass into a function,
