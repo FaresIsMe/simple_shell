@@ -104,7 +104,7 @@ int errorToInteger(char *myError)
 
 	if (*myError == '+')
 		myError = myError + 1;
-	for (AmrLooper; myError[AmrLooper]; AmrLooper++)
+	for (; myError[AmrLooper]; AmrLooper++)
 	{
 		if (myError[AmrLooper] >= '0' && myError[AmrLooper] <= '9')
 		{
@@ -132,7 +132,7 @@ int errorToInteger(char *myError)
 int printingDecimal(int myInput, int fileD)
 {
 	int (*myPrintFunction)(char) = _putchar;
-	int i, printedChars = 0;
+	int printedChars = 0;
 	unsigned int myAbsolute, myCurrent;
 	unsigned int myDivisor = 1000000000;
 

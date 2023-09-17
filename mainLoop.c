@@ -63,10 +63,10 @@ void forkingMyCmd(myInfoObject *myInfo)
 	if (myChildPid == 0)
 	{
 		myReturnedStatus = execve((*myInfo).path,
-		(*myInfo).argument, gettingMyEnviron(myInfo));
+		(*myInfo).arguments, gettingMyEnviron(myInfo));
 		if (myReturnedStatus == -1)
 		{
-			freeMyInfo(myInfo);
+			freeMyInfo(myInfo, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -104,9 +104,9 @@ void findingCommandLastTime(myInfoObject *myInfo)
 		(*myInfo).line_count = ((*myInfo).line_count) + 1;
 		(*myInfo).linecount_flag = 0;
 	}
-	for (; (*myInfo).argument[i] != NULL; i++)
+	for (; (*myInfo).argument[i] != '\0'; i++)
 	{
-		if (is_del((*myInfo).argument, " \t\n"))
+		if (is_del((*myInfo).argument[i], " \t\n"))
 			j = j + 1;
 	}
 	if (j == 0)

@@ -72,7 +72,7 @@ myList *addingNodeBeg(myList **myHead, char *myString, int num)
  * Return: It returns a pointer to the newly created node
 */
 
-myList *add_node_end(myList **head, const char *str, int num)
+myList *add_node_end(myList **head, char *str, int num)
 {
 	myList *newNode = (myList *)malloc(sizeof(myList));
 	myList *current;

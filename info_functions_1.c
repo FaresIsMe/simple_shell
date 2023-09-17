@@ -70,13 +70,13 @@ void freeMyInfo(myInfoObject *myInfo, int allCondition)
 		if ((*myInfo).command_buffer != NULL)
 			free((*myInfo).argument);
 		if ((*myInfo).environment != NULL)
-			free(&(*myInfo).environment);
+			free_list(&(*myInfo).environment);
 		if ((*myInfo).history != NULL)
-			free(&(*myInfo).history);
+			free_list(&(*myInfo).history);
 		if ((*myInfo).alias != NULL)
-			free(&(*myInfo).alias);
+			free_list(&(*myInfo).alias);
 		if ((*myInfo).environ != NULL)
-			free((*myInfo).environ);
+			freeAString((*myInfo).environ);
 		if ((*myInfo).read_file_descriptor > 2)
 			close((*myInfo).read_file_descriptor);
 		freeNulling((void **)(*myInfo).command_buffer);

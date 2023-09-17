@@ -11,7 +11,7 @@
 
 char *_strdup(char *str)
 {
-	unsigned int i;
+	int i;
 
 	if (str != NULL)
 	{
@@ -64,7 +64,7 @@ char *startsWith(const char *myString, const char *theSString)
  * Return: NULL or the poistion
 */
 
-char *_strchr(const char *myString, char myChar)
+char *_strchr(char *myString, char myChar)
 {
 	if (myString == NULL)
 		return (NULL);

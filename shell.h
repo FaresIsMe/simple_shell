@@ -116,14 +116,14 @@ NULL, NULL, NULL, NULL, 0, 0, NULL, \
 /*string_function_1*/
 int _strlen(char *str);
 int _strcmp(char *str1, char *str2);
-char *_strcat(char *str1, const char *str2);
+char *_strcat(char *dest, char *src);
 char *_strcpy(char *str1, char *str2);
 char *_strncpy(char *str1, char *str2, int n);
 
 /*string_functions_2*/
 char *_strdup(char *str);
 char *startsWith(const char *myString, const char *theSString);
-char *_strchr(const char *myString, char myChar);
+char *_strchr(char *myString, char myChar);
 
 /*string_functions_3*/
 char *_strncat(char *dest, char *src, int n);
@@ -137,7 +137,7 @@ char **strtow2(char *str, char *del);
 /*memory_functions_1*/
 char *_memset(char *s, char b, unsigned int n);
 void freeAString(char **myPointer);
-bool freeNulling(char **myPointer);
+bool freeNulling(void **myPointer);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
@@ -184,8 +184,8 @@ int printingDecimal(int myInput, int fileD);
 
 /*linked list functions part 1*/
 size_t print_list(const myList *h);
-myList *addingNodeBeg(myList **myHead, char *myString, int num)
-myList *add_node_end(myList **head, const char *str, int num);
+myList *addingNodeBeg(myList **myHead, char *myString, int num);
+myList *add_node_end(myList **head, char *str, int num);
 void free_list(myList **head);
 int delete_nodeint_at_index(myList **head, unsigned int index);
 
