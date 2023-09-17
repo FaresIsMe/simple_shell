@@ -42,20 +42,7 @@ typedef struct myNewList
 	struct myNewList *next;
 } myList;
 
-/**
- * struct builtinCommand - A struct that is created
- * to deal with the builtin commands and their names
- * @nameofFunction: A string that conatins the
- * name of the function
- * @myCommandFun: A pointer to a function
- * that its name matches with the previous member
-*/
 
-typedef struct builtinCommand
-{
-	char *nameofFunction;
-	int (*myCommandFun)(myInfoObject *);
-} myBuiltin;
 
 /**
  * struct pass_inf - contains pseudo-arguments to pass into a function,
@@ -102,6 +89,22 @@ typedef struct pass_inf
 	int read_file_descriptor;
 	int history_count;
 } myInfoObject;
+
+/**
+ * struct builtinCommand - A struct that is created
+ * to deal with the builtin commands and their names
+ * @nameofFunction: A string that conatins the
+ * name of the function
+ * @myCommandFun: A pointer to a function
+ * that its name matches with the previous member
+*/
+
+typedef struct builtinCommand
+{
+	char *nameofFunction;
+	int (*myCommandFun)(myInfoObject *);
+} myBuiltin;
+
 
 #define Iintializing_INFO \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL,\
@@ -223,6 +226,12 @@ int WriteHistory(myInfoObject *myInfo);
 int ReadHistoryList(myInfoObject *myInfo);
 int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
 int REM_History(myInfoObject *myInfo);
+
+/*main function loop functions*/
+int findingMyBuiltinFunc(myInfoObject *myInfo);
+void forkingMyCmd(myInfoObject *myInfo);
+void findingCommandLastTime(myInfoObject *myInfo);
+int her_shell_hell(myInfoObject *shellInfo, char *arguments[]);
 
 /*
  *	----------------

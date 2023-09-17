@@ -133,7 +133,7 @@ bool replacingMyVariables(myInfoObject *myInfo)
 	for (i = 0; (*myInfo).arguments[i] != NULL; i++)
 	{
 		if ((*myInfo).arguments[i][0] != '$' ||
-		(*myInfo).arguments[i][1] == NULL)
+		(*myInfo).arguments[i][1] == '\0')
 			continue;
 		if (_strcmp((*myInfo).arguments[i], "$?") == 0)
 		{

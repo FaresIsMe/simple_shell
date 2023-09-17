@@ -4,14 +4,14 @@
  * printingEnviormentList - A function to print the variables in the enviroment
  * @myInfo: A pointer to the enviorment linked list
  *
- * Return: Always 0 (Success)
+ * Return: Success or failure
 */
 
 int printingEnviormentList(myInfoObject *myInfo)
 {
 	int theReturedValue = print_list((*myInfo).environment);
 
-	return (0);
+	return (theReturedValue);
 }
 
 /**
@@ -33,7 +33,7 @@ char *gettingEnviormentVariable(myInfoObject *myInfo, const char *myRVar)
 	while (myTempHead != NULL)
 	{
 		myCP = startsWith((*myTempHead).myString, myRVar);
-		if (myCP != NULL && *myCP != NULL)
+		if (myCP != NULL && *myCP != '\0')
 			return (myCP);
 		myTempHead = (*myTempHead).next;
 	}
@@ -57,7 +57,7 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
 		_puts_fd("Not correct number of arguments I think \n", STDERR_FILENO);
 		return (1);
 	}
-	sER = setEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
+	sER = settingEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
 	return ((sER != 0) ? 1 : 0);
 }
 
@@ -76,7 +76,7 @@ int preparingForUnsettingEnv(myInfoObject *myInfo)
 
 	if ((*myInfo).argument_count <= 1)
 	{
-		_put_fd("Not correct number of arguments\n", STDERR_FILENO);
+		_puts_fd("Not correct number of arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	for (; i <= (*myInfo).argument_count; i++)

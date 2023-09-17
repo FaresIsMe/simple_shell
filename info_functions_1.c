@@ -35,10 +35,10 @@ void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv)
 		(*myInfo).arguments = strtow((*myInfo).argument, " \t");
 		if ((*myInfo).arguments == NULL)
 		{
-			(*myInfo).arguments = (sizeof(char *) * 2);
+			(*myInfo).arguments = malloc((sizeof(char *) * 2));
 			if ((*myInfo).arguments != NULL)
 			{
-				(*myInfo).arguments[0] = _strdub((*myInfo).argument);
+				(*myInfo).arguments[0] = _strdup((*myInfo).argument);
 				(*myInfo).arguments[1] = NULL;
 			}
 		}

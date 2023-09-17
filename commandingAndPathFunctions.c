@@ -14,9 +14,7 @@ bool isExecutable(__attribute__((unused)) myInfoObject * myP, char *FaresPath)
 {
 	struct stat myStatVar;
 
-	if (FaresPath == NULL)
-		return (false);
-	if (stat(FaresPath, &myStatVar) != 0)
+	if (FaresPath == NULL || stat(FaresPath, &myStatVar))
 		return (false);
 	return (S_ISREG & myStatVar.st_mode ? true : false);
 }
@@ -40,7 +38,7 @@ char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd)
 	static char myBuffer[MAX_BUFFER_SIZE];
 	int i = 0, bufferPos;
 
-	for (bufferPos = 0, i < myStart; i < myEnd; i++)
+	for (bufferPos = 0, i = myStart; i < myEnd; i++)
 	{
 		if (myPathStr[i] != ':')
 		{
@@ -78,12 +76,12 @@ char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
 	{
 		if (pathEnvVar[i] == '\0' || pathEnvVar[i] == ':')
 		{
-			myEndPath = strdub(pathEnvVar, myCurrentPos, i);
-			if (*myEndPath == NULL)
+			myEndPath = duplicatingMyChars(pathEnvVar, myCurrentPos, i);
+			if (myEndPath == NULL)
 				_strcat(myEndPath, myCommand);
 			else
 			{
-				_strcat(myEndPath, '/');
+				_strcat(myEndPath, "/");
 				_strcat(myEndPath, myCommand);
 			}
 			if (isExecutable(myInfo, myEndPath) == true)
