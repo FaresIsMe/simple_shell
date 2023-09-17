@@ -40,8 +40,10 @@ int _puts_fd(char *string, int file_descriptor)
 	return (0);
 
 	while (*string != '\0')
-	i = i + put_fd(string, file_descriptor);
-
+	{
+		i = i + put_fd(*string, file_descriptor);
+		string = string + 1;
+	}
 	return (i);
 }
 
@@ -85,5 +87,5 @@ void _errorputschar(char *myString)
 	return;
 
 	while (*myString)
-		_eputchar(*myString++);
+		_errorputchar(*myString++);
 }

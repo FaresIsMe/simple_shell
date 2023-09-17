@@ -39,7 +39,7 @@ size_t print_list(const myList *h)
  * Return: NULL or a pointer to the newly created node
 */
 
-myList *addingNodeBeg(myList **myHead, const char *myString, int num)
+myList *addingNodeBeg(myList **myHead, char *myString, int num)
 {
 	myList *newHead;
 

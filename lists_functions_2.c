@@ -75,7 +75,7 @@ char **convertingNodeStringstoArray(myList *myHead)
 		tempStr = malloc(_strlen(currentNode->myString) + 1);
 		if (tempStr == NULL)
 		{
-			for (unsigned int j = 0; j < i; j++)
+			for (; j < i; j++)
 				free(stringArrayPointer[j]);
 			free(stringArrayPointer);
 			return (NULL);

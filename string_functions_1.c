@@ -15,52 +15,58 @@ int _strlen(char *str)
 	while (*str)
 	{
 		len++;
-		*str++;
+		str = str + 1;
 	}
 	return (len);
 }
 /**
- * _strcmp - comparing between two strings
- * @str1: The fist string
- * @str2: the second string
- * Return: 0 if they are the same
+ * _strcmp - A function to compare two strings
+ * @X: First string to be compared
+ * @Y: Second string to be compared
+ * Description: This function loops through each char in
+ * the X and Y and when it finds any different char
+ * it breaks out of the loop and return the value of their ASCII values
+ * substraction
+ * Return: 0 if they are equal, a positive number if X is bigger
+ * than Y, a negative number if X is smaller than Y
 */
-int _strcmp(char *str1, char *str2)
+
+int _strcmp(char *X, char *Y)
 {
-	while (str1 && str2)
+	while (*X)
 	{
-		if (*str1 != *str2)
-		return (str1 - str2);
+		if (*X != *Y)
+			break;
 
-		*str1++;
-		*str2++;
+		X = X + 1;
+		Y = Y + 1;
 	}
-	if (*str1 == *str2)
-	return (0);
 
-	if (str1 > str2)
-	return (1);
-	else
-	return (0);
+	return (*(const unsigned char *)X - *(const unsigned char *)Y);
 }
 /**
- * _strcat -  concatenates two strings
- * @str1: The fist string
- * @str2: the second string
- * Return: Them together in one string (str1)
+ * _strcat - A function that concatenates two strings together
+ * @dest: The first string
+ * @src: The second string that has to concatenated with
+ * the first one
+ * Return: It returns a pointer to the beginning of the
+ * concatenated string
 */
-char *_strcat(char *str1, const char *str2)
+
+char *_strcat(char *dest, char *src)
 {
-	int i, len1, j, len2;
+	char *ptr = dest + _strlen(dest);
 
-	len1 = _strlen(str1);
-	len2 = len1 + 1;
-
-	for (i = len1, j = 0; *str2; i++, j++)
-	str1[i] == str2[j];
-
-	return (str1);
+	while (*src != '\0')
+	{
+		*ptr = *src;
+		ptr++;
+		src++;
+	}
+	*ptr = '\0';
+	return (dest);
 }
+
 /**
  * _strcpy - copies a string
  * @str1: The fist string

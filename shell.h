@@ -184,7 +184,7 @@ int printingDecimal(int myInput, int fileD);
 
 /*linked list functions part 1*/
 size_t print_list(const myList *h);
-myList *addingNodeBeg(myList **myHead, const char *myString, int num);
+myList *addingNodeBeg(myList **myHead, char *myString, int num)
 myList *add_node_end(myList **head, const char *str, int num);
 void free_list(myList **head);
 int delete_nodeint_at_index(myList **head, unsigned int index);
