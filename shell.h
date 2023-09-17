@@ -135,7 +135,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /*additional_functions_1*/
 bool isInteractive(myInfoObject *myInfo);
 bool _isalpha(int myChar);
-bool isDelim(char checkedOne, char *theStringDel);
+int is_del(char c, char *del)
 int _atoi(char *s);
 
 /*errors functions*/
