@@ -16,7 +16,9 @@ bool isExecutable(__attribute__((unused)) myInfoObject * myP, char *FaresPath)
 
 	if (FaresPath == NULL || stat(FaresPath, &myStatVar))
 		return (false);
-	return (S_ISREG & myStatVar.st_mode ? true : false);
+	if (myStatVar.st_mode & S_IFREG)
+		return (true);
+	return (false);
 }
 
 /**

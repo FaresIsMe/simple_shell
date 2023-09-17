@@ -146,7 +146,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 	int builtinResult = 0;
 	ssize_t read_status = 0;
 
-	if (isInteractive(shellInfo) == NULL && shellInfo->status)
+	if (isInteractive(shellInfo) == 0 && shellInfo->status)
 		exit(shellInfo->status);
 
 	if (builtinResult == -2)
@@ -158,7 +158,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 	while (read_status != -1 && builtinResult != -2)
 	{
 		clearMyInfoVariable(shellInfo);
-		if (isInteractive(shellInfo) != NULL)
+		if (isInteractive(shellInfo) != 0)
 			_puts("$ ");
 
 		read_status = GetInput(shellInfo);

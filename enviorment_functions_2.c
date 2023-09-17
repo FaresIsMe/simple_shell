@@ -41,7 +41,7 @@ int unsetEnvVar(myInfoObject *myInfo, char *myVar)
 		myCP = startsWith((*myHead).myString, myVar);
 		if (myCP != NULL && *myCP == '=')
 		{
-			(*myInfo).environment_changed = deleteNodeIndex(&(*myInfo).environment, i);
+			(*myInfo).environment_changed = delete_nodeint_at_index(&(*myInfo).environment, i);
 			i = 0;
 			myHead = (*myInfo).environment;
 			continue;
@@ -72,7 +72,7 @@ int settingEnvVar(myInfoObject *myInfo, char *myVar, char *myValue)
 		return (0);
 	myBuffer = malloc(sizeof(myVar) + sizeof(myValue) + 2);
 	_strcpy(myBuffer, myVar);
-	_strcat(myBuffer, '=');
+	_strcat(myBuffer, "=");
 	_strcat(myBuffer, myValue);
 	myHead = (*myInfo).environment;
 	while (myHead != NULL)

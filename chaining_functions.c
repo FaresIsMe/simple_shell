@@ -13,7 +13,7 @@
  * Return: 0 on no chaining and 1 on there is chaning
 */
 
-bool isThereChaining(myInfoObject *myInfo, char *myBuffer, int *FaresPos)
+bool isThereChaining(myInfoObject *myInfo, char *myBuffer, size_t *FaresPos)
 {
 	int tempFarsePos = *FaresPos;
 	bool isChaining = false;

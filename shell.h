@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
@@ -138,6 +139,7 @@ char *_memset(char *s, char b, unsigned int n);
 void freeAString(char **myPointer);
 bool freeNulling(char **myPointer);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char *_memcpy(char *dest, char *src, unsigned int n);
 
 /*additional_functions_1*/
 bool isInteractive(myInfoObject *myInfo);
@@ -214,7 +216,7 @@ ssize_t GetInput(myInfoObject *myInfo);
 ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length);
 
 /*chaining functions*/
-bool isThereChaining(myInfoObject *myInfo, char *myBuffer, int *FaresPos);
+bool isThereChaining(myInfoObject *myInfo, char *myBuffer, size_t *FaresPos);
 void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myL);
 bool replacingMyAliases(myInfoObject *myInfo);
 bool replacingMyVariables(myInfoObject *myInfo);

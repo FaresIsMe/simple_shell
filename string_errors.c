@@ -39,7 +39,7 @@ int _puts_fd(char *string, int file_descriptor)
 	if (string == NULL)
 	return (0);
 
-	while (*string != NULL)
+	while (*string != '\0')
 	i = i + put_fd(string, file_descriptor);
 
 	return (i);
