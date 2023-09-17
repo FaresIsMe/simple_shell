@@ -11,7 +11,7 @@ char *GetHistoryFile(myInfoObject *myInfo)
 	char *home_dir;
 	size_t dir_len, file_len;
 
-	home_dir = _getenv(myInfo, "HOME=");
+	home_dir = gettingEnviormentVariable(myInfo, "HOME=");
 
 	if (home_dir)
 	{
@@ -23,7 +23,7 @@ char *GetHistoryFile(myInfoObject *myInfo)
 		{
 			_strcpy(history_file, home_dir);
 			_strcat(history_file, "/");
-			_strcta(history_file, HISTORY_FILE);
+			_strcat(history_file, HISTORY_FILE);
 		}
 	}
 	return (history_file);
@@ -56,10 +56,10 @@ int WriteHistory(myInfoObject *myInfo)
 	current_node = current_node->next)
 	{
 		_puts_fd(current_node->myString, file_descriptor);
-		_putfd('\n');
+		put_fd('\n', file_descriptor);
 	}
 
-	_put_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
+	_puts_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
 	close(file_descriptor);
 
 	return (1);
@@ -93,7 +93,7 @@ int ReadHistoryList(myInfoObject *myInfo)
 	if(buffer == NULL)
 	return (0);
 
-	read_length == read(file_descriptor, buffer, file_stats.st_size);
+	read_length = read(file_descriptor, buffer, file_stats.st_size);
 
 	buffer[file_stats.st_size] = '\0';
 	close(file_descriptor);
@@ -116,10 +116,10 @@ int ReadHistoryList(myInfoObject *myInfo)
 
 	myInfo->history_count = linecount;
 
-	while (myInfo->history_count-- >= HISTORY_FILE)
-	DeleteNodeIndex(&(myInfo->history), 0);
+	while (myInfo->history_count-- >= 4096)
+	delete_nodeint_at_index(&(myInfo->history), 0);
 
-	Rem_History(myInfo);
+	REM_History(myInfo);
 
 	return (myInfo->history_count);
 }
@@ -136,7 +136,7 @@ int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
 	myList *newnode = NULL;
 
 	if (myInfo->history)
-	newnode = myInfo->history_count;
+	newnode = myInfo->history;
 	
 	add_node_end(&newnode, buffer, linecount);
 
