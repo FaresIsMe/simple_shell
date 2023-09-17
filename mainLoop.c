@@ -14,7 +14,7 @@
 int findingMyBuiltinFunc(myInfoObject *myInfo)
 {
 	int i, myBuiltinRetValue = -1;
-	
+
 	myBuiltin myTableofBuilding[] = {
 		{"exit", _exit_shell},
 		{"env", printingEnviormentList},
@@ -29,7 +29,8 @@ int findingMyBuiltinFunc(myInfoObject *myInfo)
 
 	for (i = 0; myTableofBuilding[i].nameofFunction != NULL; i++)
 	{
-		if (_strcmp(myTableofBuilding[i].nameofFunction, (*myInfo).arguments[0]) == 0)
+		if (_strcmp(myTableofBuilding[i].nameofFunction,
+		(*myInfo).arguments[0]) == 0)
 		{
 			(*myInfo).line_count = (*myInfo).line_count + 1;
 			myBuiltinRetValue = myTableofBuilding[i].myCommandFun(myInfo);
@@ -44,7 +45,7 @@ int findingMyBuiltinFunc(myInfoObject *myInfo)
  * we need to execute a commmand
  * @myInfo: A pointer to myInfoObject that contains everything
  * about the shell currently
- * 
+ *
  * Return: Nothing (void)
 */
 
@@ -52,6 +53,7 @@ void forkingMyCmd(myInfoObject *myInfo)
 {
 	pid_t myChildPid;
 	int myReturnedStatus;
+
 	myChildPid = fork();
 	if (myChildPid == -1)
 	{
@@ -87,7 +89,7 @@ void forkingMyCmd(myInfoObject *myInfo)
  * call the forking function to execute it
  * @myInfo: A pointer to myInfoObject that contains everything
  * about the shell currently
- * 
+ *
  * Return: Nothing (void)
 */
 
@@ -129,4 +131,52 @@ void findingCommandLastTime(myInfoObject *myInfo)
 			printingErros(myInfo, "not found\n");
 		}
 	}
+}
+
+/**
+ * her_shell_hell - Most of the functions are here, The main Loop
+ * @shellInfo: A pointer to myInfoObject that contains everythin
+ * @arguments: The arguments vector passed from the main function
+ *
+ * Return: 0 on success, The error number on failure
+*/
+
+int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
+{
+	int builtinResult = 0;
+	ssize_t read_status = 0;
+
+	if (isInteractive(shellInfo) == NULL && shellInfo->status)
+		exit(shellInfo->status);
+
+	if (builtinResult == -2)
+	{
+		if (shellInfo->error_number == -1)
+			exit(shellInfo->status);
+	}
+
+	while (read_status != -1 && builtinResult != -2)
+	{
+		clearMyInfoVariable(shellInfo);
+		if (isInteractive(shellInfo) != NULL)
+			_puts("$ ");
+
+		read_status = GetInput(shellInfo);
+		if (read_status == -1)
+		{
+			settingMyInfoVariable(shellInfo, arguments);
+			builtinResult = findingMyBuiltinFunc(shellInfo);
+			if (builtinResult == -1)
+				findingCommandLastTime(shellInfo);
+		}
+		else if (isInteractive(shellInfo))
+			_putchar('\n');
+
+		freeMyInfo(shellInfo, 0);
+	}
+
+	WriteHistory(shellInfo);
+	freeMyInfo(shellInfo, 1);
+
+	return (builtinResult);
 }
