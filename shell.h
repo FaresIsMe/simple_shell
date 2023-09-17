@@ -79,6 +79,7 @@ typedef struct builtinCommand
  * @read_file_descriptor: the file descriptor from which to read line input
  * @history_count: the history line number count
  */
+
 typedef struct pass_inf
 {
 	char *argument;
@@ -118,13 +119,16 @@ char *_strncpy(char *str1, char *str2, int n);
 /*string_functions_2*/
 char *_strdup(char *str);
 char *startsWith(const char *myString, const char *theSString);
-char *_memset(char *s, char b, unsigned int n);
 char *_strchr(const char *myString, char myChar);
 
 /*string_functions_3*/
 char *_strncat(char *dest, char *src, int n);
 void _puts(char *s);
 int _putchar(char c);
+
+/*string functions 4*/
+char **strtow(char *str, char *del);
+char **strtow2(char *str, char *del);
 
 /*memory_functions_1*/
 char *_memset(char *s, char b, unsigned int n);
@@ -135,7 +139,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /*additional_functions_1*/
 bool isInteractive(myInfoObject *myInfo);
 bool _isalpha(int myChar);
-int is_del(char c, char *del)
+int is_del(char c, char *del);
 int _atoi(char *s);
 
 /*errors functions*/
@@ -160,27 +164,32 @@ int settingEnvVar(myInfoObject *myInfo, char *myVar, char *myValue);
 /*commanding and path functions*/
 bool isExecutable(__attribute__((unused)) myInfoObject *myP, char *FaresPath);
 char *duplicatingMyChars(char *myPathStr, int myStart, int myEnd);
+char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand);
 
 /*myInfo object functions*/
 void clearMyInfoVariable(myInfoObject *myInfo);
 void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv);
+void freeMyInfo(myInfoObject *myInfo, int allCondition);
 
 /*some more functions*/
 char *convertor(long int num, int myBase, int myFlags);
 void removingComments(char *myBuffer);
 int errorToInteger(char *myError);
+int printingDecimal(int myInput, int fileD);
 
 /*linked list functions part 1*/
 size_t print_list(const myList *h);
 myList *addingNodeBeg(myList **myHead, const char *myString, int num);
 myList *add_node_end(myList **head, const char *str, int num);
 void free_list(myList **head);
+int delete_nodeint_at_index(myList **head, unsigned int index);
 
 /*linked list functions part 2*/
 size_t linkedListLength(myList *myHead);
 size_t printingTheList(const myList *myHead);
 size_t gettingTheIndex(myList *myHead, myList *theRequiredNode);
 myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar);
+char **convertingNodeStringstoArray(myList *myHead);
 
 /*builtin Ass functions part 1*/
 int _exit_shell(myInfoObject *myInfo);
@@ -191,17 +200,34 @@ int _help_(myInfoObject *take_in_your_ass);
 int print_history(myInfoObject *game_of_thrones);
 int _unset_alias(myInfoObject *die, char *dying);
 int _set_alias(myInfoObject *help, char *me);
+int PrintAlias(myList *pain);
 int man_alias(myInfoObject *myInfo);
 
-/* geline */
+/* geline functions */
 void handle_sigin(__attribute__((unused))int empty);
 int _getline(myInfoObject *myInfo, char **lineptr, size_t *n);
 ssize_t ReadBuffer(myInfoObject *myInfo, char *buffer, size_t *i);
 ssize_t GetInput(myInfoObject *myInfo);
 ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length);
+
+/*chaining functions*/
+bool isThereChaining(myInfoObject *myInfo, char *myBuffer, int *FaresPos);
+void cSWC(myInfoObject *myI, char *myBuf, size_t *myPo, size_t i, size_t myLen);
+bool replacingMyAliases(myInfoObject *myInfo);
+bool replacingMyVariables(myInfoObject *myInfo);
+bool replacingNewandOldStrings(char **theOldOne, char *theNewOne);
+
+/*history functions*/
+char *GetHistoryFile(myInfoObject *myInfo);
+int WriteHistory(myInfoObject *myInfo);
+int ReadHistoryList(myInfoObject *myInfo);
+int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
+int REM_History(myInfoObject *myInfo);
+
 /*
 	----------------
 	Not finished Yet -> To be continued
 	----------------
 */
+
 #endif

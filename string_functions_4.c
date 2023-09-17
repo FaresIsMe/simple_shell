@@ -51,23 +51,7 @@ char **strtow2(char *str, char *del)
 }
 
 
-/**
- * is_del - checks if a character is a delimiter
- * @c: the character to check
- * @del: the delimiter string
- *
- * Return: 1 if the character is a delimiter, 0 otherwise
- */
-int is_del(char c, char *del)
-{
-	while (*del != '\0')
-	{
-		if (c == *del)
-			return (1);
-		del++;
-	}
-	return (0);
-}
+
 
 /**
  * strtow - splits a string into words. Repeat delimiters are ignored
