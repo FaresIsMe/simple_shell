@@ -33,21 +33,16 @@ int _strlen(char *str)
 
 int _strcmp(char *X, char *Y)
 {
-	while (str1 && str2)
+	while (*X)
 	{
-		if (*str1 != *str2)
-		return (str1 - str2);
+		if (*X != *Y)
+			break;
 
-		*str1++;
-		*str2++;
+		X = X + 1;
+		Y = Y + 1;
 	}
-	if (*str1 == *str2)
-	return (0);
 
-	if (str1 > str2)
-	return (1);
-	else
-	return (0);
+	return (*(const unsigned char *)X - *(const unsigned char *)Y);
 }
 /**
  * _strcat - A function that concatenates two strings together
