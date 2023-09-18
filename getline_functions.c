@@ -14,54 +14,6 @@ void handle_sigin(__attribute__((unused))int empty)
 }
 
 /**
- * her_shell_hell - Most of the functions are here, The main Loop
- * @shellInfo: A pointer to myInfoObject that contains everythin
- * @arguments: The arguments vector passed from the main function
- *
- * Return: 0 on success, The error number on failure
-*/
-
-int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
-{
-	int builtinResult = 0;
-	ssize_t read_status = 0;
-
-	if (isInteractive(shellInfo) == 0 && shellInfo->status)
-		exit(shellInfo->status);
-
-	if (builtinResult == -2)
-	{
-		if (shellInfo->error_number == -1)
-			exit(shellInfo->status);
-	}
-
-	while (read_status != -1 && builtinResult != -2)
-	{
-		clearMyInfoVariable(shellInfo);
-		if (isInteractive(shellInfo) != 0)
-			_puts("$ ");
-
-		read_status = GetInput(shellInfo);
-		if (read_status != -1)
-		{
-			settingMyInfoVariable(shellInfo, arguments);
-			builtinResult = findingMyBuiltinFunc(shellInfo);
-			if (builtinResult == -1)
-				findingCommandLastTime(shellInfo);
-		}
-		else if (isInteractive(shellInfo))
-			_putchar('\n');
-
-		freeMyInfo(shellInfo, 0);
-	}
-
-	WriteHistory(shellInfo);
-	freeMyInfo(shellInfo, 1);
-
-	return (builtinResult);
-}
-
-/**
  * ReadBuffer  -  function reads data from a file descriptor into a buffer
  * @myInfo: idk
  * @buffer: The buffer
@@ -167,4 +119,51 @@ ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
 		}
 	}
 	return (bytesRead);
+}
+
+/**
+ * _getline - gets the line from standard input
+ * @myInfo: I don't know man leave me alone
+ * @lineptr: address of pointer to buffer
+ * @n: The size of a preallocated pointer buffer
+ *
+ * Return: lots of things I don't care
+ */
+int _getline(myInfoObject *info, char **ptr, size_t *length)
+{
+	static char buf[MAX_BUFFER_SIZE];
+	static size_t i, len;
+	size_t k;
+	ssize_t r = 0, s = 0;
+	char *p = NULL, *new_p = NULL, *c;
+
+	p = *ptr;
+	if (p && length)
+		s = *length;
+	if (i == len)
+		i = len = 0;
+
+	r = ReadBuffer(info, buf, &len);
+	if (r == -1 || (r == 0 && len == 0))
+		return (-1);
+
+	c = _strchr(buf + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
+	if (!new_p) /* MALLOC FAILURE! */
+		return (p ? free(p), -1 : -1);
+
+	if (s)
+		_strncat(new_p, buf + i, k - i);
+	else
+		_strncpy(new_p, buf + i, k - i + 1);
+
+	s += k - i;
+	i = k;
+	p = new_p;
+
+	if (length)
+		*length = s;
+	*ptr = p;
+	return (s);
 }
