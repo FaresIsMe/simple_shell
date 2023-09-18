@@ -14,51 +14,87 @@ void handle_sigin(__attribute__((unused))int empty)
 }
 
 /**
- * her_shell_hell - Most of the functions are here, The main Loop
- * @shellInfo: A pointer to myInfoObject that contains everythin
- * @arguments: The arguments vector passed from the main function
+ * _getline - gets the line from standard input
+ * @myInfo: I don't know man leave me alone
+ * @lineptr: address of pointer to buffer
+ * @n: The size of a preallocated pointer buffer
  *
- * Return: 0 on success, The error number on failure
-*/
-
-int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
+ * Return: lots of things I don't care
+ */
+int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
 {
-	int builtinResult = 0;
-	ssize_t read_status = 0;
+	static char buffer[MAX_BUFFER_SIZE];
+	static size_t buffer_pos, buffer_len;
+	size_t line_len = 0;
+	ssize_t read_len = 0;
+	char *line = NULL, *new_line = NULL, *newline_pos = NULL;
 
-	if (isInteractive(shellInfo) == 0 && shellInfo->status)
-		exit(shellInfo->status);
+	if (lineptr == NULL || n == NULL)
+		return -1;
 
-	if (builtinResult == -2)
+	line = *lineptr;
+	line_len = *n;
+
+	if (line == NULL)
 	{
-		if (shellInfo->error_number == -1)
-			exit(shellInfo->status);
+		line = malloc(256);
+		if (line == NULL)
+			return -1;
 	}
 
-	while (read_status != -1 && builtinResult != -2)
+	if (buffer_pos == buffer_len)
 	{
-		clearMyInfoVariable(shellInfo);
-		if (isInteractive(shellInfo) != 0)
-			_puts("$ ");
+		buffer_pos = 0;
+		buffer_len = 0;
+	}
 
-		read_status = GetInput(shellInfo);
-		if (read_status != -1)
+	while (1)
+	{
+		if (buffer_pos == buffer_len)
 		{
-			settingMyInfoVariable(shellInfo, arguments);
-			builtinResult = findingMyBuiltinFunc(shellInfo);
-			if (builtinResult == -1)
-				findingCommandLastTime(shellInfo);
+			read_len = read(myInfo->read_file_descriptor, buffer, MAX_BUFFER_SIZE);
+			if (read_len == -1)
+				return -1;
+			if (read_len == 0)
+				break;
+			buffer_len = read_len;
+			buffer_pos = 0;
 		}
-		else if (isInteractive(shellInfo))
-			_putchar('\n');
 
-		freeMyInfo(shellInfo, 0);
+		newline_pos = memchr(buffer + buffer_pos, '\n', buffer_len - buffer_pos);
+		if (newline_pos)
+		{
+			line_len += newline_pos - (buffer + buffer_pos) + 1;
+			new_line = _realloc(line, line_len, line_len);
+			if (new_line == NULL)
+			{
+				free(line);
+				return -1;
+			}
+			line = new_line;
+			*lineptr = line;
+			_strncat(line, buffer + buffer_pos, newline_pos - (buffer + buffer_pos) + 1);
+			buffer_pos = newline_pos - buffer + 1;
+			break;
+		}
+
+		line_len += buffer_len - buffer_pos;
+		new_line = _realloc(line, line_len + 1, line_len + 1);
+		if (new_line == NULL)
+		{
+			free(line);
+			return -1;
+		}
+		line = new_line;
+		*lineptr = line;
+		_strncat(line, buffer + buffer_pos, buffer_len - buffer_pos);
+		buffer_pos = buffer_len;
 	}
 
-	WriteHistory(shellInfo);
-	freeMyInfo(shellInfo, 1);
+	*n = line_len;
+	line[line_len] = '\0';
 
-	return (builtinResult);
+	return ((line_len == 0 && read_len == 0) ? -1 : (int)line_len);
 }
 
 /**
