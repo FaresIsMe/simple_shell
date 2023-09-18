@@ -210,7 +210,7 @@ int man_alias(myInfoObject *myInfo);
 
 /* geline functions */
 void handle_sigin(__attribute__((unused))int empty);
-int _getline(myInfoObject *myInfo, char **lineptr, size_t *n);
+int _getline(myInfoObject *info, char **ptr, size_t *length);
 ssize_t ReadBuffer(myInfoObject *myInfo, char *buffer, size_t *i);
 ssize_t GetInput(myInfoObject *myInfo);
 ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length);
@@ -899,19 +899,20 @@ char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
 		if (pathEnvVar[i] == '\0' || pathEnvVar[i] == ':')
 		{
 			myEndPath = duplicatingMyChars(pathEnvVar, myCurrentPos, i);
-			if (myEndPath == NULL)
+			if (*myEndPath == '\0')
 				_strcat(myEndPath, myCommand);
 			else
 			{
 				_strcat(myEndPath, "/");
 				_strcat(myEndPath, myCommand);
 			}
-			if (isExecutable(myInfo, myEndPath) == true)
+			if (isExecutable(myInfo, myEndPath))
 				return (myEndPath);
 			if (pathEnvVar[i] == '\0')
 				break;
 			myCurrentPos = i;
 		}
+		i++;
 	}
 	return (NULL);
 }
@@ -1139,61 +1140,43 @@ void handle_sigin(__attribute__((unused))int empty)
  *
  * Return: lots of things I don't care
  */
-int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
+int _getline(myInfoObject *info, char **ptr, size_t *length)
 {
-	static char buffer[MAX_BUFFER_SIZE];
-	static size_t buffer_pos, buffer_len;
-	size_t line_len = 0;
-	ssize_t read_len = 0;
-	char *line = NULL, *new_line = NULL, *newline_pos = NULL;
+	static char buf[MAX_BUFFER_SIZE];
+	static size_t i, len;
+	size_t k;
+	ssize_t r = 0, s = 0;
+	char *p = NULL, *new_p = NULL, *c;
 
-	line = *lineptr;
-	if (line && n)
-		line_len = *n;
-	if (buffer_pos == buffer_len)
-	{
-		buffer_pos = 0;
-		buffer_len = 0;
-	}
-	while (1)
-	{
-		if (buffer_pos == buffer_len)
-		{
-			read_len = read(myInfo->read_file_descriptor, buffer, MAX_BUFFER_SIZE);
-			if (read_len == -1)
-				return (-1);
-			if (read_len == 0)
-				break;
-			buffer_len = read_len;
-			buffer_pos = 0;
-		}
-		newline_pos = memchr(buffer + buffer_pos, '\n', buffer_len - buffer_pos);
-		if (newline_pos)
-		{
-			line_len += newline_pos - (buffer + buffer_pos) + 1;
-			new_line = _realloc(line, line_len, line_len);
-			if (!new_line)
-				return (line ? free(line), -1 : -1);
-			line = new_line;
-			*lineptr = line;
-			_strncat(line, buffer + buffer_pos,
-			newline_pos - (buffer + buffer_pos) + 1);
-			buffer_pos = newline_pos - buffer + 1;
-			break;
-		}
-		line_len += buffer_len - buffer_pos;
-		new_line = realloc(line, line_len + 1);
-		if (!new_line)
-			return (line ? free(line), -1 : -1);
-		line = new_line;
-		*lineptr = line;
-		strncat(line, buffer + buffer_pos, buffer_len - buffer_pos);
-		buffer_pos = buffer_len;
-	}
-	if (n)
-		*n = line_len;
-	line[line_len] = '\0';
-	return (line_len == 0 && read_len == 0 ? -1 : (int)line_len);
+	p = *ptr;
+	if (p && length)
+		s = *length;
+	if (i == len)
+		i = len = 0;
+
+	r = ReadBuffer(info, buf, &len);
+	if (r == -1 || (r == 0 && len == 0))
+		return (-1);
+
+	c = _strchr(buf + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
+	if (!new_p) /* MALLOC FAILURE! */
+		return (p ? free(p), -1 : -1);
+
+	if (s)
+		_strncat(new_p, buf + i, k - i);
+	else
+		_strncpy(new_p, buf + i, k - i + 1);
+
+	s += k - i;
+	i = k;
+	p = new_p;
+
+	if (length)
+		*length = s;
+	*ptr = p;
+	return (s);
 }
 
 /**
@@ -1350,7 +1333,7 @@ void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv)
 		;
 		(*myInfo).argument_count = i;
 	}
-	// replacingMyAliases(myInfo);
+	replacingMyAliases(myInfo);
 	replacingMyVariables(myInfo);
 }
 
@@ -1836,7 +1819,7 @@ void findingCommandLastTime(myInfoObject *myInfo)
 	}
 	for (; (*myInfo).argument[i] != '\0'; i++)
 	{
-		if (is_del((*myInfo).argument[i], " \t\n"))
+		if (!is_del((*myInfo).argument[i], " \t\n"))
 			j = j + 1;
 	}
 	if (j == 0)
@@ -1892,7 +1875,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 			_puts("$ ");
 
 		read_status = GetInput(shellInfo);
-		if (read_status == -1)
+		if (read_status != -1)
 		{
 			settingMyInfoVariable(shellInfo, arguments);
 			builtinResult = findingMyBuiltinFunc(shellInfo);

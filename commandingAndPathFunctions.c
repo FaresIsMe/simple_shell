@@ -92,6 +92,7 @@ char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
 				break;
 			myCurrentPos = i;
 		}
+		i = i + 1;
 	}
 	return (NULL);
 }

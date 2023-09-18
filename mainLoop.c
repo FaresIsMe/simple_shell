@@ -162,7 +162,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 			_puts("$ ");
 
 		read_status = GetInput(shellInfo);
-		if (read_status == -1)
+		if (read_status != -1)
 		{
 			settingMyInfoVariable(shellInfo, arguments);
 			builtinResult = findingMyBuiltinFunc(shellInfo);
