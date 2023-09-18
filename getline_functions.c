@@ -14,72 +14,55 @@ void handle_sigin(__attribute__((unused))int empty)
 }
 
 /**
- * _getline - gets the line from standard input
- * @myInfo: I don't know man leave me alone
- * @lineptr: address of pointer to buffer
- * @n: The size of a preallocated pointer buffer
+ * her_shell_hell - Most of the functions are here, The main Loop
+ * @shellInfo: A pointer to myInfoObject that contains everythin
+ * @arguments: The arguments vector passed from the main function
  *
- * Return: lots of things I don't care
- */
-int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
-{
-	static char buffer[MAX_BUFFER_SIZE];
-	static size_t buffer_pos, buffer_len;
-	size_t line_len = 0;
-	ssize_t read_len = 0;
-	char *line = NULL, *new_line = NULL, *newline_pos = NULL;
+ * Return: 0 on success, The error number on failure
+*/
 
-	line = *lineptr;
-	if (line && n)
-		line_len = *n;
-	if (buffer_pos == buffer_len)
+int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
+{
+	int builtinResult = 0;
+	ssize_t read_status = 0;
+
+	if (isInteractive(shellInfo) == 0 && shellInfo->status)
+		exit(shellInfo->status);
+
+	if (builtinResult == -2)
 	{
-		buffer_pos = 0;
-		buffer_len = 0;
+		if (shellInfo->error_number == -1)
+			exit(shellInfo->status);
 	}
-	while (1)
+
+	while (read_status != -1 && builtinResult != -2)
 	{
-		if (buffer_pos == buffer_len)
+		clearMyInfoVariable(shellInfo);
+		if (isInteractive(shellInfo) != 0)
+			_puts("$ ");
+
+		read_status = GetInput(shellInfo);
+		if (read_status != -1)
 		{
-			read_len = read(myInfo->read_file_descriptor, buffer, MAX_BUFFER_SIZE);
-			if (read_len == -1)
-				return (-1);
-			if (read_len == 0)
-				break;
-			buffer_len = read_len;
-			buffer_pos = 0;
+			settingMyInfoVariable(shellInfo, arguments);
+			builtinResult = findingMyBuiltinFunc(shellInfo);
+			if (builtinResult == -1)
+				findingCommandLastTime(shellInfo);
 		}
-		newline_pos = memchr(buffer + buffer_pos, '\n', buffer_len - buffer_pos);
-		if (newline_pos)
-		{
-			line_len += newline_pos - (buffer + buffer_pos) + 1;
-			new_line = _realloc(line, line_len, line_len);
-			if (!new_line)
-				return (line ? free(line), -1 : -1);
-			line = new_line;
-			*lineptr = line;
-			_strncat(line, buffer + buffer_pos,
-			newline_pos - (buffer + buffer_pos) + 1);
-			buffer_pos = newline_pos - buffer + 1;
-			break;
-		}
-		line_len += buffer_len - buffer_pos;
-		new_line = realloc(line, line_len + 1);
-		if (!new_line)
-			return (line ? free(line), -1 : -1);
-		line = new_line;
-		*lineptr = line;
-		strncat(line, buffer + buffer_pos, buffer_len - buffer_pos);
-		buffer_pos = buffer_len;
+		else if (isInteractive(shellInfo))
+			_putchar('\n');
+
+		freeMyInfo(shellInfo, 0);
 	}
-	if (n)
-		*n = line_len;
-	line[line_len] = '\0';
-	return (line_len == 0 && read_len == 0 ? -1 : (int)line_len);
+
+	WriteHistory(shellInfo);
+	freeMyInfo(shellInfo, 1);
+
+	return (builtinResult);
 }
 
 /**
- * read_buf  -  function reads data from a file descriptor into a buffer
+ * ReadBuffer  -  function reads data from a file descriptor into a buffer
  * @myInfo: idk
  * @buffer: The buffer
  * @i: idfk
@@ -146,8 +129,8 @@ ssize_t GetInput(myInfoObject *myInfo)
  * InputBuffer - chained buffer commands
  * @myInfo: struct parameter
  * @buffer: buffer's address
- * @length: address of the variable length 
- * 
+ * @length: address of the variable length
+ *
  * Return: size of bytes read.
 */
 ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
@@ -169,13 +152,13 @@ ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
 		{
 			if ((*buffer)[bytesRead - 1] == '\n')
 			{
-				(*buffer)[bytesRead - 1] = '\0'; 
+				(*buffer)[bytesRead - 1] = '\0';
 				bytesRead--;
 			}
 			myInfo->linecount_flag = 1;
 			removingComments(*buffer);
 			BuildHistoryList(myInfo, *buffer, myInfo->history_count++);
-			
+
 			if (_strchr(*buffer, ';'))
 			{
 				*length = bytesRead;
