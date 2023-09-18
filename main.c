@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * main - entry
  * @avrgv: The vector arguement
@@ -25,7 +26,7 @@ int main(int argc, char **argv)
 		if (file_descriptor == -1)
 		{
 			if (errno == EACCES)
-			exit(126);
+		exit(126);
 			if (errno == ENOENT)
 			{
 				_puts(argv[0]);
