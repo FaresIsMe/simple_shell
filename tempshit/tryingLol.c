@@ -836,7 +836,7 @@ bool isExecutable(__attribute__((unused)) myInfoObject * myP, char *FaresPath)
 
 	if (FaresPath == NULL || stat(FaresPath, &myStatVar))
 		return (false);
-	if (myStatVar.st_mode & S_IFREG)
+	if (myStatVar.st_mode & 0100000)
 		return (true);
 	return (false);
 }
@@ -1704,21 +1704,7 @@ int main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);
-		if (file_descriptor == -1)
-		{
-			if (errno == EACCES)
-				exit(126);
-			if (errno == ENOENT)
-			{
-				_puts(argv[0]);
-				_puts(": 0; Can't open");
-				_puts(argv[1]);
-				_putchar('\n');
-				_putchar(BUFFER_FLUSH_CONDITION);
-				exit(127);
-			}
-			return (EXIT_FAILURE);
-		}
+
 		INFO->read_file_descriptor = file_descriptor;
 	}
 
@@ -2049,7 +2035,7 @@ char *_memcpy(char *dest, char *src, unsigned int n)
 
 bool isInteractive(myInfoObject *myInfo)
 {
-	if (isatty(STDIN_FILENO) && (*myInfo).read_file_descriptor <= 2)
+	if (isatty(0) && (*myInfo).read_file_descriptor <= 2)
 		return (true);
 	else
 		return (false);
@@ -2149,13 +2135,13 @@ int is_del(char c, char *del)
 
 void printingErrors(myInfoObject *myInfo, char *myError)
 {
-	_puts_fd((*myInfo).filename, STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	printingDecimal((*myInfo).line_count, STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	_puts_fd((*myInfo).arguments[0], STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	_puts_fd(myError, STDERR_FILENO);
+	_puts_fd((*myInfo).filename, 2);
+	_puts_fd(": ", 2);
+	printingDecimal((*myInfo).line_count, 2);
+	_puts_fd(": ", 2);
+	_puts_fd((*myInfo).arguments[0], 2);
+	_puts_fd(": ", 2);
+	_puts_fd(myError, 2);
 }
 
 /**
@@ -2273,7 +2259,7 @@ int printingDecimal(int myInput, int fileD)
 	unsigned int myAbsolute, myCurrent;
 	unsigned int myDivisor = 1000000000;
 
-	if (fileD == STDERR_FILENO)
+	if (fileD == 2)
 		myPrintFunction = _errorputchar;
 	if (myInput < 0)
 	{
@@ -2362,7 +2348,7 @@ int _errorputchar(char myChar)
 
 	if (myChar == BUFFER_FLUSH_CONDITION || MAX_BUFFER_SIZE <= i)
 	{
-		write(STDERR_FILENO, buffer, i);
+		write(1, buffer, i);
 		i = 0;
 	}
 	if (myChar != BUFFER_FLUSH_CONDITION)

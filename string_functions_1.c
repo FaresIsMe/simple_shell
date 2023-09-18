@@ -55,16 +55,14 @@ int _strcmp(char *X, char *Y)
 
 char *_strcat(char *dest, char *src)
 {
-	char *ptr = dest + _strlen(dest);
+	char *ret = dest;
 
-	while (*src != '\0')
-	{
-		*ptr = *src;
-		ptr++;
-		src++;
-	}
-	*ptr = '\0';
-	return (dest);
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
+	return (ret);
 }
 
 /**
