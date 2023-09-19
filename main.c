@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	}
 
 	makingtheLinkedList(INFO);
-	ReadHistoryList(INFO);
+	/*ReadHistoryList(INFO);*/
 	her_shell_hell(INFO, argv);
 
 	return (EXIT_SUCCESS);

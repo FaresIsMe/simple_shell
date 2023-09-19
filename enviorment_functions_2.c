@@ -41,7 +41,7 @@ int unsetEnvVar(myInfoObject *myInfo, char *myVar)
 		myCP = startsWith((*myHead).myString, myVar);
 		if (myCP != NULL && *myCP == '=')
 		{
-			(*myInfo).environment_changed = delete_nodeint_at_index(&(*myInfo).environment, i);
+			(*myInfo).environment_changed = delete_node_at_index(&(*myInfo).environment, i);
 			i = 0;
 			myHead = (*myInfo).environment;
 			continue;

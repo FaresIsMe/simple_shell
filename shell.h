@@ -187,7 +187,7 @@ size_t print_list(const myList *h);
 myList *addingNodeBeg(myList **myHead, char *myString, int num);
 myList *add_node_end(myList **head, char *str, int num);
 void free_list(myList **head);
-int delete_nodeint_at_index(myList **head, unsigned int index);
+int delete_node_at_index(myList **head, unsigned int index);
 
 /*linked list functions part 2*/
 size_t linkedListLength(myList *myHead);

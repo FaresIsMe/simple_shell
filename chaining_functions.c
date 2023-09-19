@@ -135,6 +135,7 @@ bool replacingMyVariables(myInfoObject *myInfo)
 		if ((*myInfo).arguments[i][0] != '$' ||
 		(*myInfo).arguments[i][1] == '\0')
 			continue;
+			
 		if (_strcmp((*myInfo).arguments[i], "$?") == 0)
 		{
 			myPointer = _strdup(convertor(

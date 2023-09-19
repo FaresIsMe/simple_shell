@@ -119,7 +119,7 @@ int ReadHistoryList(myInfoObject *myInfo)
 	myInfo->history_count = linecount;
 
 	while (myInfo->history_count-- >= 4096)
-	delete_nodeint_at_index(&(myInfo->history), 0);
+	delete_node_at_index(&(myInfo->history), 0);
 
 	REM_History(myInfo);
 

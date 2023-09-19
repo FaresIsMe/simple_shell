@@ -133,17 +133,14 @@ size_t gettingTheIndex(myList *myHead, myList *theRequiredNode)
 
 myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar)
 {
-	char *myPointer = NULL;
+	char *p = NULL;
 
-	while (myHead != NULL)
+	while (myHead)
 	{
-		myPointer = startsWith((*myHead).myString, theSearchPre);
-		if (myPointer != NULL &&
-		(afterChar == -1 || *theSearchPre == afterChar))
-		{
+		p = startsWith(myHead->myString, theSearchPre);
+		if (p && ((afterChar == -1) || (*p == afterChar)))
 			return (myHead);
-		}
-		myHead = (*myHead).next;
+		myHead = myHead->next;
 	}
 	return (NULL);
 }

@@ -106,7 +106,7 @@ void findingCommandLastTime(myInfoObject *myInfo)
 	}
 	for (; (*myInfo).argument[i] != '\0'; i++)
 	{
-		if (is_del((*myInfo).argument[i], " \t\n"))
+		if (!is_del((*myInfo).argument[i], " \t\n"))
 			j = j + 1;
 	}
 	if (j == 0)
@@ -146,15 +146,6 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 	int builtinResult = 0;
 	ssize_t read_status = 0;
 
-	if (isInteractive(shellInfo) == 0 && shellInfo->status)
-		exit(shellInfo->status);
-
-	if (builtinResult == -2)
-	{
-		if (shellInfo->error_number == -1)
-			exit(shellInfo->status);
-	}
-
 	while (read_status != -1 && builtinResult != -2)
 	{
 		clearMyInfoVariable(shellInfo);
@@ -166,17 +157,25 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 		{
 			settingMyInfoVariable(shellInfo, arguments);
 			builtinResult = findingMyBuiltinFunc(shellInfo);
-			if (builtinResult == -1)
-				findingCommandLastTime(shellInfo);
+		if (builtinResult == -1)
+			findingCommandLastTime(shellInfo);
 		}
 		else if (isInteractive(shellInfo))
 			_putchar('\n');
-
 		freeMyInfo(shellInfo, 0);
 	}
 
 	WriteHistory(shellInfo);
 	freeMyInfo(shellInfo, 1);
+
+	if (isInteractive(shellInfo) == 0 && shellInfo->status)
+		exit(shellInfo->status);
+	if (builtinResult == -2)
+	{
+		if (shellInfo->error_number == -1)
+			exit(shellInfo->status);
+		exit(shellInfo->error_number);
+	}
 
 	return (builtinResult);
 }

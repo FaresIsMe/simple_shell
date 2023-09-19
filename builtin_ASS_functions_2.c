@@ -31,7 +31,7 @@ int _unset_alias(myInfoObject *die, char *dying)
 	fares = *amr;
 	*amr = '\0';
 
-	eminem = delete_nodeint_at_index(&(die->alias),
+	eminem = delete_node_at_index(&(die->alias),
 		gettingTheIndex(die->alias, isNodeStartsWith(die->alias, dying, -1)));
 
 	*amr = fares;

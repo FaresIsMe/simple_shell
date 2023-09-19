@@ -61,10 +61,10 @@ void settingMyInfoVariable(myInfoObject *myInfo, char **myArgv)
 
 void freeMyInfo(myInfoObject *myInfo, int allCondition)
 {
-	(*myInfo).path = NULL;
 	freeAString((*myInfo).arguments);
 	(*myInfo).arguments = NULL;
-
+	(*myInfo).path = NULL;
+	
 	if (allCondition != 0)
 	{
 		if ((*myInfo).command_buffer != NULL)

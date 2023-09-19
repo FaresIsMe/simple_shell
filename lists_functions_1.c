@@ -9,23 +9,20 @@
 
 size_t print_list(const myList *h)
 {
-	const myList *myHead;
-	size_t counter = 0;
+    const myList *current = h;
+    size_t counter = 0;
 
-	if (h == NULL)
-		return (0);
+    while (current != NULL) {
+        if (current->myString != NULL)
+            _puts(current->myString);
+        else
+            _puts("(nil)");
+        _putchar('\n');
+        current = current->next;
+        counter++;
+    }
 
-	while (h != NULL)
-	{
-		if ((*myHead).myString != NULL)
-			_puts((*myHead).myString);
-		else
-			_puts("(nil)");
-		_putchar('\n');
-		myHead = myHead + 1;
-		counter++;
-	}
-	return (counter);
+    return counter;
 }
 
 /**
@@ -81,17 +78,17 @@ myList *add_node_end(myList **head, char *str, int num)
 		return (NULL);
 	_memset((void *)newNode, 0, sizeof(newNode));
 	(*newNode).theNum = num;
-	if ((*newNode).myString != NULL)
+	if (str != NULL)
 	{
 		newNode->myString = _strdup(str);
+        if (newNode->myString == NULL)
+        {
+            free(newNode);
+            return (NULL);
+        }
 		newNode->next = NULL;
 	}
-	else
-	{
-		free(newNode);
-		return (NULL);
-	}
-	if (*head == NULL)
+	if (!*head)
 	{
 		*head = newNode;
 		return (newNode);
@@ -114,34 +111,37 @@ myList *add_node_end(myList **head, char *str, int num)
  * Return: 1 or -1
 */
 
-int delete_nodeint_at_index(myList **head, unsigned int index)
+int delete_node_at_index(myList **head, unsigned int index)
 {
-	myList *currentNode;
-	myList *newNode;
-	unsigned int counter;
+	myList *node, *prev_node;
+	unsigned int i = 0;
 
-	if (*head == NULL)
-		return (-1);
-	currentNode = *head;
-	if (index == 0)
+	if (!head || !*head)
+		return (0);
+
+	if (!index)
 	{
+		node = *head;
 		*head = (*head)->next;
-		free(currentNode);
+		free(node->myString);
+		free(node);
 		return (1);
 	}
-	for (; currentNode != NULL && counter < index - 1; counter++)
+	node = *head;
+	while (node)
 	{
-		currentNode = currentNode->next;
+		if (i == index)
+		{
+			prev_node->next = node->next;
+			free(node->myString);
+			free(node);
+			return (1);
+		}
+		i++;
+		prev_node = node;
+		node = node->next;
 	}
-	if (currentNode == NULL || currentNode->next == NULL)
-		return (-1);
-
-	newNode = currentNode->next->next;
-
-	free(currentNode->next);
-
-	currentNode->next = newNode;
-	return (1);
+	return (0);
 }
 
 /**
