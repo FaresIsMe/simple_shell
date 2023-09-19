@@ -62,7 +62,7 @@ int _errorputchar(char myChar)
 
 	if (myChar == BUFFER_FLUSH_CONDITION || MAX_BUFFER_SIZE <= i)
 	{
-		write(STDERR_FILENO, buffer, i);
+		write(2, buffer, i); /*STDERR_FILENO*/
 		i = 0;
 	}
 	if (myChar != BUFFER_FLUSH_CONDITION)

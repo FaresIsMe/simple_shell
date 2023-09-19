@@ -64,63 +64,43 @@ char **strtow2(char *str, char *del)
  * Return: a pointer to an array of strings, or NULL on failure
  */
 
-char **strtow(char *str, char *del)
+char **strtow(char *str, char *d)
 {
-	char **words = NULL;
-	int num_words = 0, str_len, del_len, word_start, i = 0, word_len, j;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-	if (str == NULL || str[0] == '\0')
+	if (str == NULL || str[0] == 0)
 		return (NULL);
-	if (del == NULL)
-		del = " ";
-	str_len = _strlen(str);
-	del_len = _strlen(del);
-	(void)del_len;
-	while (i < str_len)
+	if (!d)
+		d = " ";
+	for (i = 0; str[i] != '\0'; i++)
+		if (!is_del(str[i], d) && (is_del(str[i + 1], d) || !str[i + 1]))
+			numwords++;
+
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
 	{
-		while (i < str_len && is_del(str[i], del))
+		while (is_del(str[i], d))
 			i++;
-		if (i == str_len)
-			break;
-		word_start = i;
-		while (i < str_len && !is_del(str[i], del))
-			i++;
-		word_len = i - word_start;
-		num_words++;
-		words = _realloc(words, num_words * sizeof(char *),
-						 (num_words + 1) * sizeof(char *));
-		if (words == NULL)
+		k = 0;
+		while (!is_del(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
 		{
-			for (j = 0; j < num_words - 1; j++)
-				free(words[j]);
-			free(words);
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
 			return (NULL);
 		}
-		words[num_words - 1] = malloc((word_len + 1) * sizeof(char));
-		if (words[num_words - 1] == NULL)
-		{
-			for (j = 0; j < num_words - 1; j++)
-				free(words[j]);
-			free(words);
-			return (NULL);
-		}
-		_strncpy(words[num_words - 1], str + word_start, word_len);
-		words[num_words - 1][word_len] = '\0';
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-	if (num_words == 0)
-	{
-		free(words);
-		return (NULL);
-	}
-	words = _realloc(words, (num_words + 1) * sizeof(char *),
-					 (num_words + 1) * sizeof(char *));
-	if (words == NULL)
-	{
-		for (j = 0; j < num_words; j++)
-			free(words[j]);
-		free(words);
-		return (NULL);
-	}
-	words[num_words] = NULL;
-	return (words);
+	s[j] = NULL;
+	return (s);
 }

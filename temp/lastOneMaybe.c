@@ -114,7 +114,7 @@ NULL, NULL, NULL, NULL, 0, 0, NULL, \
 
 
 /*string_function_1*/
-size_t _strlen(char *str);
+int _strlen(char *str);
 int _strcmp(char *str1, char *str2);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *str1, char *str2);
@@ -131,7 +131,7 @@ void _puts(char *s);
 int _putchar(char c);
 
 /*string functions 4*/
-char **strtow(char *str, char *d);
+char **strtow(char *str, char *del);
 char **strtow2(char *str, char *del);
 
 /*memory_functions_1*/
@@ -245,175 +245,6 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[]);
 
 
 /**
- * GetHistoryFile - get history file
- * @myInfo: smth in a struct we made
- *
- * Return: history file
-*/
-char *GetHistoryFile(myInfoObject *myInfo)
-{
-	char *history_file = NULL;
-	char *home_dir;
-	size_t dir_len, file_len;
-
-	home_dir = gettingEnviormentVariable(myInfo, "HOME=");
-
-	if (home_dir)
-	{
-		dir_len = _strlen(home_dir);
-		file_len = _strlen(HISTORY_FILE);
-		history_file = malloc(sizeof(char) * (dir_len + file_len + 2));
-
-		if (history_file)
-		{
-			_strcpy(history_file, home_dir);
-			_strcat(history_file, "/");
-			_strcat(history_file, HISTORY_FILE);
-		}
-	}
-	return (history_file);
-}
-/**
- *WriteHistory - writes in a history file it created or it existed
- *@myInfo: اهلا بيك في مصر
- *
- *
- *Return: 1 on success
-*/
-int WriteHistory(myInfoObject *myInfo)
-{
-	int file_descriptor;
-	char *filename;
-	myList *current_node = NULL;
-
-	filename = GetHistoryFile(myInfo);
-
-	if (!filename)
-		return (-1);
-
-	file_descriptor = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	free(filename);
-
-	if (file_descriptor == -1)
-	return (-1);
-
-	for (current_node = myInfo->history; current_node;
-	current_node = current_node->next)
-	{
-		_puts_fd(current_node->myString, file_descriptor);
-		put_fd('\n', file_descriptor);
-	}
-
-	put_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
-	close(file_descriptor);
-
-	return (1);
-}
-/**
- * ReadHistoryList - whatever
- * @myInfo: whatever
- * 
- * Return: SUCK YOUR MOM
- * 
-*/
-int ReadHistoryList(myInfoObject *myInfo)
-{
-	int i, last = 0, linecount = 0;
-	ssize_t file_descriptor, read_length;
-	struct stat file_stats;
-	char *buffer = NULL, *filename;
-
-	filename = GetHistoryFile(myInfo);
-
-	file_descriptor = open(filename, O_RDONLY);
-
-	if (!filename)
-	return (0);
-
-	if (fstat(file_descriptor, &file_stats) != 0)
-	return (0);
-
-	if (file_stats.st_size < 2)
-	return (0);
-
-	buffer = malloc(sizeof(char) * (file_stats.st_size + 1));
-	if(buffer == NULL)
-	return (0);
-
-	read_length = read(file_descriptor, buffer, file_stats.st_size);
-
-	buffer[file_stats.st_size] = '\0';
-	close(file_descriptor);
-
-	if (read_length <= 0)
-	return (0);
-
-	for (i = 0; i < file_stats.st_size; i++)
-	{
-		if (buffer[i] == '\n')
-		{
-			BuildHistoryList(myInfo, buffer + last, linecount);
-			last = i + 1;
-		}
-	}
-	if (last != 1)
-	BuildHistoryList(myInfo, buffer + last, linecount);
-
-	free (buffer);
-
-	myInfo->history_count = linecount;
-
-	while (myInfo->history_count-- >= 4096)
-	delete_node_at_index(&(myInfo->history), 0);
-
-	REM_History(myInfo);
-
-	return (myInfo->history_count);
-}
-/**
- * BuildHistoryList - adds enrty to linked list
- * @myInfo: I DON"T GIVE A FART
- * @buffer: idc
- * @linecount: stll dc
- * 
- * Return: 0
-*/
-int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
-{
-	myList *newnode = NULL;
-
-	if (myInfo->history)
-	newnode = myInfo->history;
-	
-	add_node_end(&newnode, buffer, linecount);
-
-	if (!myInfo->history)
-	myInfo->history = newnode;
-
-	return (0);
-}
-/**
- * REM_History - Renumber the history linked list after changes
- * @myInfo: stfu
- * 
- * Return: new history count
-*/
-int REM_History(myInfoObject *myInfo)
-{
-	myList *current_node = myInfo->history;
-	int new_histcount = 0;
-
-	while (current_node)
-	{
-		current_node->theNum = new_histcount++;
-		current_node = current_node->next;
-	}
-
-	myInfo->history_count = new_histcount;
-	return (new_histcount);
-}
-
-/**
  * _exit_shell - it exits the damn shell
  * @myInfo: structure contains good information for easier use
  *
@@ -451,19 +282,27 @@ int _exit_shell(myInfoObject *myInfo)
 int _cd_(myInfoObject *myInfo)
 {
 	char *current_dir, *target_dir, FARES[1024];
-	int AMR_dir;
+	int cd_result;
 
 	current_dir = getcwd(FARES, 1024);
 	if (!current_dir)
+	{
 		_puts("TODO: >>getcwd failure emsg here<<\n");
+		return -1;
+	}
 
 	if (!myInfo->arguments[1])
 	{
 		target_dir = gettingEnviormentVariable(myInfo, "HOME=");
 		if (!target_dir)
-		AMR_dir = chdir(target_dir ? target_dir : "/");
+		{
+			target_dir = "/";
+			cd_result = chdir(target_dir);
+		}
 		else
-		AMR_dir = chdir(target_dir);
+		{
+			cd_result = chdir(target_dir);
+		}
 	}
 	else if (_strcmp(myInfo->arguments[1], "-") == 0)
 	{
@@ -472,29 +311,33 @@ int _cd_(myInfoObject *myInfo)
 		{
 			_puts(current_dir);
 			_putchar('\n');
-			return (1);
+			return 1;
 		}
-		_puts(target_dir);
-		_putchar('\n');
-		AMR_dir = chdir(target_dir);
+		else
+		{
+			_puts(target_dir);
+			_putchar('\n');
+			cd_result = chdir(target_dir);
+		}
 	}
 	else
 	{
-
-		AMR_dir = chdir(myInfo->arguments[1]);
+		cd_result = chdir(myInfo->arguments[1]);
 	}
-	if (AMR_dir == -1)
+
+	if (cd_result == -1)
 	{
 		printingErrors(myInfo, "can't cd to ");
-		_puts(target_dir);
+		_puts(myInfo->arguments[1]);
 		_putchar('\n');
+		return -1;
 	}
 	else
 	{
-		settingEnvVar(myInfo, "OLDPWD", gettingEnviormentVariable(myInfo, "PWD="));
+		settingEnvVar(myInfo, "OLDPWD", current_dir);
 		settingEnvVar(myInfo, "PWD", getcwd(FARES, 1024));
+		return 0;
 	}
-	return (0);
 }
 
 /**
@@ -515,6 +358,7 @@ int _help_(myInfoObject *take_in_your_ass)
 
 	return (0);
 }
+
 
 /**
  * print_history - for real?
@@ -826,7 +670,6 @@ bool replacingNewandOldStrings(char **theOldOne, char *theNewOne)
 
 
 
-
 /**
  * isExecutable - A function to check if the file is executable or not
  * @myP: A Pointer to myInfoObject variable
@@ -842,7 +685,7 @@ bool isExecutable(__attribute__((unused)) myInfoObject * myP, char *FaresPath)
 
 	if (FaresPath == NULL || stat(FaresPath, &myStatVar))
 		return (false);
-	if (1)
+	if (1) /*myStatVar.st_mode & S_IFREG*/
 		return (true);
 	return (false);
 }
@@ -924,7 +767,6 @@ char *jOFP(myInfoObject *myInfo, char *pathEnvVar, char *myCommand)
 }
 
 
-
 /**
  * printingEnviormentList - A function to print the variables in the enviroment
  * @myInfo: A pointer to the enviorment linked list
@@ -979,7 +821,7 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
 
 	if ((*myInfo).argument_count != 3)
 	{
-		_puts_fd("Not correct number of arguments I think \n", 2);
+		_puts_fd("Not correct number of arguments I think \n", 2); /*STDERR_FILENO*/
 		return (1);
 	}
 	sER = settingEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
@@ -997,15 +839,18 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
 
 int preparingForUnsettingEnv(myInfoObject *myInfo)
 {
-	int i = 1;
+	int i = 0;
 
 	if ((*myInfo).argument_count <= 1)
 	{
-		_puts_fd("Not correct number of arguments\n", STDERR_FILENO);
+		_puts_fd("Not correct number of arguments\n", 2); /*STDERR_FILENO*/
 		return (1);
 	}
 	for (; i <= (*myInfo).argument_count; i++)
-		unsetEnvVar(myInfo, (*myInfo).arguments[i]);
+	{
+		if (unsetEnvVar(myInfo, (*myInfo).arguments[i]) != 0)
+			return (1);
+	}
 	return (0);
 }
 /**
@@ -1149,7 +994,7 @@ void handle_sigin(__attribute__((unused))int empty)
  *
  * Return: lots of things I don't care
  */
-int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
+int _getline(myInfoObject *myInfo, char **lineptr, size_t *length)
 {
 	static char buf[MAX_BUFFER_SIZE];
 	static size_t i, len;
@@ -1157,7 +1002,7 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 	ssize_t r = 0, s = 0;
 	char *p = NULL, *new_p = NULL, *c;
 
-	p = *ptr;
+	p = *lineptr;
 	if (p && length)
 		s = *length;
 	if (i == len)
@@ -1170,7 +1015,7 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
 	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) /* MALLOC FAILURE! */
+	if (!new_p) 
 		return (p ? free(p), -1 : -1);
 
 	if (s)
@@ -1184,7 +1029,7 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 
 	if (length)
 		*length = s;
-	*ptr = p;
+	*lineptr = p;
 	return (s);
 }
 
@@ -1294,6 +1139,175 @@ ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
 		}
 	}
 	return (bytesRead);
+}
+
+/**
+ * GetHistoryFile - get history file
+ * @myInfo: smth in a struct we made
+ *
+ * Return: history file
+*/
+char *GetHistoryFile(myInfoObject *myInfo)
+{
+	char *history_file = NULL;
+	char *home_dir;
+	size_t dir_len, file_len;
+
+	home_dir = gettingEnviormentVariable(myInfo, "HOME=");
+
+	if (home_dir)
+	{
+		dir_len = _strlen(home_dir);
+		file_len = _strlen(HISTORY_FILE);
+		history_file = malloc(sizeof(char) * (dir_len + file_len + 2));
+
+		if (history_file)
+		{
+			_strcpy(history_file, home_dir);
+			_strcat(history_file, "/");
+			_strcat(history_file, HISTORY_FILE);
+		}
+	}
+	return (history_file);
+}
+/**
+ *WriteHistory - writes in a history file it created or it existed
+ *@myInfo: اهلا بيك في مصر
+ *
+ *
+ *Return: 1 on success
+*/
+int WriteHistory(myInfoObject *myInfo)
+{
+	int file_descriptor;
+	char *filename;
+	myList *current_node = NULL;
+
+	filename = GetHistoryFile(myInfo);
+
+	if (!filename)
+		return (-1);
+
+	file_descriptor = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	free(filename);
+
+	if (file_descriptor == -1)
+	return (-1);
+
+	for (current_node = myInfo->history; current_node;
+	current_node = current_node->next)
+	{
+		_puts_fd(current_node->myString, file_descriptor);
+		put_fd('\n', file_descriptor);
+	}
+
+	put_fd(BUFFER_FLUSH_CONDITION, file_descriptor);
+	close(file_descriptor);
+
+	return (1);
+}
+/**
+ * ReadHistoryList - whatever
+ * @myInfo: whatever
+ * 
+ * Return: SUCK YOUR MOM
+ * 
+*/
+int ReadHistoryList(myInfoObject *myInfo)
+{
+	int i, last = 0, linecount = 0;
+	ssize_t file_descriptor, read_length;
+	struct stat file_stats;
+	char *buffer = NULL, *filename;
+
+	filename = GetHistoryFile(myInfo);
+
+	file_descriptor = open(filename, O_RDONLY);
+
+	if (!filename)
+	return (0);
+
+	if (fstat(file_descriptor, &file_stats) != 0)
+	return (0);
+
+	if (file_stats.st_size < 2)
+	return (0);
+
+	buffer = malloc(sizeof(char) * (file_stats.st_size + 1));
+	if(buffer == NULL)
+	return (0);
+
+	read_length = read(file_descriptor, buffer, file_stats.st_size);
+
+	buffer[file_stats.st_size] = '\0';
+	close(file_descriptor);
+
+	if (read_length <= 0)
+	return (0);
+
+	for (i = 0; i < file_stats.st_size; i++)
+	{
+		if (buffer[i] == '\n')
+		{
+			BuildHistoryList(myInfo, buffer + last, linecount);
+			last = i + 1;
+		}
+	}
+	if (last != 1)
+	BuildHistoryList(myInfo, buffer + last, linecount);
+
+	free (buffer);
+
+	myInfo->history_count = linecount;
+
+	while (myInfo->history_count-- >= 4096)
+	delete_node_at_index(&(myInfo->history), 0);
+
+	REM_History(myInfo);
+
+	return (myInfo->history_count);
+}
+/**
+ * BuildHistoryList - adds enrty to linked list
+ * @myInfo: I DON"T GIVE A FART
+ * @buffer: idc
+ * @linecount: stll dc
+ * 
+ * Return: 0
+*/
+int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
+{
+	myList *newnode = NULL;
+
+	if (myInfo->history)
+	newnode = myInfo->history;
+	
+	add_node_end(&newnode, buffer, linecount);
+
+	if (!myInfo->history)
+	myInfo->history = newnode;
+
+	return (0);
+}
+/**
+ * REM_History - Renumber the history linked list after changes
+ * @myInfo: stfu
+ * 
+ * Return: new history count
+*/
+int REM_History(myInfoObject *myInfo)
+{
+	myList *current_node = myInfo->history;
+	int new_histcount = 0;
+
+	while (current_node)
+	{
+		current_node->theNum = new_histcount++;
+		current_node = current_node->next;
+	}
+
+	myInfo->history_count = new_histcount;
+	return (new_histcount);
 }
 
 
@@ -1484,7 +1498,7 @@ myList *add_node_end(myList **head, char *str, int num)
 
 
 /**
- * delete_node_at_index - A function to delete a node at
+ * delete_nodeint_at_index - A function to delete a node at
  * a specific index
  * @head: A pointer to a pointer that points to the head
  * of the linked list
@@ -1563,13 +1577,13 @@ void free_list(myList **head)
 size_t linkedListLength(myList *myHead)
 {
 	size_t theReturnedLength = 0;
-	myList *tempHead = myHead;
+
 	if (myHead == NULL)
 		return (0);
-	while (tempHead!= NULL)
+	while (myHead != NULL)
 	{
 		theReturnedLength = theReturnedLength + 1;
-		tempHead = (*tempHead).next;
+		myHead = (*myHead).next;
 	}
 	return (theReturnedLength);
 }
@@ -1697,6 +1711,7 @@ myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar)
 	return (NULL);
 }
 
+
 /**
  * main - entry
  * @avrgv: The vector arguement
@@ -1720,11 +1735,11 @@ int main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);
-		/*
 		if (file_descriptor == -1)
+		/*
 		{
 			if (errno == EACCES)
-		exit(126);
+				exit(126);
 			if (errno == ENOENT)
 			{
 				_puts(argv[0]);
@@ -1741,9 +1756,7 @@ int main(int argc, char **argv)
 	}
 
 	makingtheLinkedList(INFO);
-	/*
-	ReadHistoryList(INFO);
-	*/
+	/*ReadHistoryList(INFO);*/
 	her_shell_hell(INFO, argv);
 
 	return (EXIT_SUCCESS);
@@ -2076,7 +2089,7 @@ char *_memcpy(char *dest, char *src, unsigned int n)
 
 bool isInteractive(myInfoObject *myInfo)
 {
-	if (isatty(0) && (*myInfo).read_file_descriptor <= 2)
+	if (isatty(0) && (*myInfo).read_file_descriptor <= 2) /*STDIN_FILENO*/
 		return (true);
 	else
 		return (false);
@@ -2177,7 +2190,7 @@ int is_del(char c, char *del)
 
 void printingErrors(myInfoObject *myInfo, char *myError)
 {
-	_puts_fd((*myInfo).filename, 2);
+	_puts_fd((*myInfo).filename, 2); /*STDERR_FILENO*/
 	_puts_fd(": ", 2);
 	printingDecimal((*myInfo).line_count, 2);
 	_puts_fd(": ", 2);
@@ -2301,7 +2314,7 @@ int printingDecimal(int myInput, int fileD)
 	unsigned int myAbsolute, myCurrent;
 	unsigned int myDivisor = 1000000000;
 
-	if (fileD == STDERR_FILENO)
+	if (fileD == 2) /*STDERR_FILENO*/
 		myPrintFunction = _errorputchar;
 	if (myInput < 0)
 	{
@@ -2327,7 +2340,6 @@ int printingDecimal(int myInput, int fileD)
 
 	return (printedChars);
 }
-
 
 
 /**
@@ -2392,7 +2404,7 @@ int _errorputchar(char myChar)
 
 	if (myChar == BUFFER_FLUSH_CONDITION || MAX_BUFFER_SIZE <= i)
 	{
-		write(STDERR_FILENO, buffer, i);
+		write(2, buffer, i); /*STDERR_FILENO*/
 		i = 0;
 	}
 	if (myChar != BUFFER_FLUSH_CONDITION)
@@ -2426,9 +2438,9 @@ void _errorputschar(char *myString)
  * @str: The string
  * Return: The length of success
 */
-size_t _strlen(char *str)
+int _strlen(char *str)
 {
-	size_t len = 0;
+	int len;
 
 	if (!str)
 	return (0);
@@ -2494,19 +2506,17 @@ char *_strcat(char *dest, char *src)
 */
 char *_strcpy(char *dest, char *src)
 {
-	char *resultPtr;
+	int i = 0;
 
-	resultPtr = dest;
-	if (dest == NULL)
-		return (NULL);
-	while (*src != '\0')
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
-		*dest = *src;
-		dest++;
-		src++;
+		dest[i] = src[i];
+		i++;
 	}
-	*dest = '\0';
-	return (resultPtr);
+	dest[i] = 0;
+	return (dest);
 }
 /**
  * _strncpy - copies a string
@@ -2543,19 +2553,27 @@ char *_strncpy(char *str1, char *str2, int n)
 
 char *_strdup(char *str)
 {
-	int length = 0;
-	char *ret;
+	int i;
 
-	if (str == NULL)
+	if (str != NULL)
+	{
+		char *newArray = (char *)malloc(_strlen(str) * sizeof(char) + 1);
+
+		if (newArray == NULL)
+		{
+			return (NULL);
+		}
+		else
+		{
+			for (i = 0; i < _strlen(str); i++)
+				_strcpy((newArray + i), (str + i));
+			return (newArray);
+		}
+	}
+	else
+	{
 		return (NULL);
-	while (*str++)
-		length++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
-		return (NULL);
-	for (length++; length--;)
-		ret[length] = *--str;
-	return (ret);
+	}
 }
 
 /**
@@ -2734,43 +2752,70 @@ char **strtow2(char *str, char *del)
  * Return: a pointer to an array of strings, or NULL on failure
  */
 
-char **strtow(char *str, char *d)
+char **strtow(char *str, char *del)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
+	char **words = NULL;
+	int num_words = 0, str_len, del_len, word_start, i = 0, word_len, j;
 
-	if (str == NULL || str[0] == 0)
+	if (str == NULL || str[0] == '\0')
 		return (NULL);
-	if (!d)
-		d = " ";
-	for (i = 0; str[i] != '\0'; i++)
-		if (!is_del(str[i], d) && (is_del(str[i + 1], d) || !str[i + 1]))
-			numwords++;
 
-	if (numwords == 0)
-		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
-		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
+	if (del == NULL)
+		del = " ";
+
+	str_len = strlen(str);
+	del_len = strlen(del);
+
+	while (i < str_len)
 	{
-		while (is_del(str[i], d))
+		while (i < str_len && is_del(str[i], del))
 			i++;
-		k = 0;
-		while (!is_del(str[i + k], d) && str[i + k])
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
-		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
-			return (NULL);
-		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
+
+		if (i == str_len)
+			break;
+
+	word_start = i;
+
+	while (i < str_len && !is_del(str[i], del))
+		i++;
+
+	word_len = i - word_start;
+	num_words++;
+
+	char **temp = realloc(words, (num_words + 1) * sizeof(char *));
+	if (temp == NULL)
+	{
+		for (j = 0; j < num_words - 1; j++)
+			free(words[j]);
+		free(words);
+		return (NULL);
 	}
-	s[j] = NULL;
-	return (s);
+	words = temp;
+
+	words[num_words - 1] = malloc((word_len + 1) * sizeof(int));
+	if (words[num_words - 1] == NULL)
+	{
+		for (j = 0; j < num_words - 1; j++)
+		free(words[j]);
+			free(words);
+	return (NULL);
+	}
+
+	strncpy(words[num_words - 1], str + word_start, word_len);
+	words[num_words - 1][word_len] = '\0';
+	}
+
+	if (num_words == 0)
+	{
+		free(words);
+		return (NULL);
+	}
+
+	words[num_words] = NULL;
+	return (words);
 }
+
+/**
+ * 1 fixing startsWith
+ * 
+*/

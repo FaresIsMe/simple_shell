@@ -51,7 +51,7 @@ int findingMyBuiltinFunc(myInfoObject *myInfo)
 
 void forkingMyCmd(myInfoObject *myInfo)
 {
-	pid_t myChildPid;
+	pid_t myChildPid = 0;
 	int myReturnedStatus;
 
 	myChildPid = fork();
@@ -67,8 +67,10 @@ void forkingMyCmd(myInfoObject *myInfo)
 		if (myReturnedStatus == -1)
 		{
 			freeMyInfo(myInfo, 1);
+			/*
 			if (errno == EACCES)
 				exit(126);
+			*/
 			exit(1);
 		}
 	}

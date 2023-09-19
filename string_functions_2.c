@@ -46,7 +46,7 @@ char *_strdup(char *str)
 
 char *startsWith(const char *myString, const char *theSString)
 {
-	while (*myString != '\0')
+	while (*theSString != '\0')
 	{
 		if (*myString != *theSString)
 			return (NULL);

@@ -21,80 +21,43 @@ void handle_sigin(__attribute__((unused))int empty)
  *
  * Return: lots of things I don't care
  */
-int _getline(myInfoObject *myInfo, char **lineptr, size_t *n)
+int _getline(myInfoObject *myInfo, char **lineptr, size_t *length)
 {
-	static char buffer[MAX_BUFFER_SIZE];
-	static size_t buffer_pos, buffer_len;
-	size_t line_len = 0;
-	ssize_t read_len = 0;
-	char *line = NULL, *new_line = NULL, *newline_pos = NULL;
+	static char buf[MAX_BUFFER_SIZE];
+	static size_t i, len;
+	size_t k;
+	ssize_t r = 0, s = 0;
+	char *p = NULL, *new_p = NULL, *c;
 
-	if (lineptr == NULL || n == NULL)
-		return -1;
+	p = *lineptr;
+	if (p && length)
+		s = *length;
+	if (i == len)
+		i = len = 0;
 
-	line = *lineptr;
-	line_len = *n;
+	r = ReadBuffer(myInfo, buf, &len);
+	if (r == -1 || (r == 0 && len == 0))
+		return (-1);
 
-	if (line == NULL)
-	{
-		line = malloc(256);
-		if (line == NULL)
-			return -1;
-	}
+	c = _strchr(buf + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
+	if (!new_p) 
+		return (p ? free(p), -1 : -1);
 
-	if (buffer_pos == buffer_len)
-	{
-		buffer_pos = 0;
-		buffer_len = 0;
-	}
+	if (s)
+		_strncat(new_p, buf + i, k - i);
+	else
+		_strncpy(new_p, buf + i, k - i + 1);
 
-	while (1)
-	{
-		if (buffer_pos == buffer_len)
-		{
-			read_len = read(myInfo->read_file_descriptor, buffer, MAX_BUFFER_SIZE);
-			if (read_len == -1)
-				return -1;
-			if (read_len == 0)
-				break;
-			buffer_len = read_len;
-			buffer_pos = 0;
-		}
+	s += k - i;
+	i = k;
+	p = new_p;
 
-		newline_pos = memchr(buffer + buffer_pos, '\n', buffer_len - buffer_pos);
-		if (newline_pos)
-		{
-			line_len += newline_pos - (buffer + buffer_pos) + 1;
-			new_line = _realloc(line, line_len, line_len);
-			if (new_line == NULL)
-			{
-				free(line);
-				return -1;
-			}
-			line = new_line;
-			*lineptr = line;
-			_strncat(line, buffer + buffer_pos, newline_pos - (buffer + buffer_pos) + 1);
-			buffer_pos = newline_pos - buffer + 1;
-			break;
-		}
-
-		line_len += buffer_len - buffer_pos;
-		new_line = _realloc(line, line_len + 1, line_len + 1);
-		if (new_line == NULL)
-		{
-			free(line);
-			return -1;
-		}
-		line = new_line;
-		*lineptr = line;
-		_strncat(line, buffer + buffer_pos, buffer_len - buffer_pos);
-		buffer_pos = buffer_len;
-	}
-
-	*n = line_len;
-	line[line_len] = '\0';
-
-	return ((line_len == 0 && read_len == 0) ? -1 : (int)line_len);
+	if (length)
+		*length = s;
+	*lineptr = p;
+	return (s);
 }
 
 /**

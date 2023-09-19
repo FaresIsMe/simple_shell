@@ -12,13 +12,13 @@
 
 void printingErrors(myInfoObject *myInfo, char *myError)
 {
-	_puts_fd((*myInfo).filename, STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	printingDecimal((*myInfo).line_count, STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	_puts_fd((*myInfo).arguments[0], STDERR_FILENO);
-	_puts_fd(": ", STDERR_FILENO);
-	_puts_fd(myError, STDERR_FILENO);
+	_puts_fd((*myInfo).filename, 2); /*STDERR_FILENO*/
+	_puts_fd(": ", 2);
+	printingDecimal((*myInfo).line_count, 2);
+	_puts_fd(": ", 2);
+	_puts_fd((*myInfo).arguments[0], 2);
+	_puts_fd(": ", 2);
+	_puts_fd(myError, 2);
 }
 
 /**
@@ -136,7 +136,7 @@ int printingDecimal(int myInput, int fileD)
 	unsigned int myAbsolute, myCurrent;
 	unsigned int myDivisor = 1000000000;
 
-	if (fileD == STDERR_FILENO)
+	if (fileD == 2) /*STDERR_FILENO*/
 		myPrintFunction = _errorputchar;
 	if (myInput < 0)
 	{
