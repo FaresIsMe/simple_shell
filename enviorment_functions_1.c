@@ -54,7 +54,7 @@ int preparnigForSettingEnv(myInfoObject *myInfo)
 
 	if ((*myInfo).argument_count != 3)
 	{
-		_puts_fd("Not correct number of arguments I think \n", 2); /*STDERR_FILENO*/
+		_puts_fd("Not correct number of arguments I think \n", STDERR_FILENO); /*STDERR_FILENO*/
 		return (1);
 	}
 	sER = settingEnvVar(myInfo, (*myInfo).arguments[1], (*myInfo).arguments[2]);
@@ -76,7 +76,7 @@ int preparingForUnsettingEnv(myInfoObject *myInfo)
 
 	if ((*myInfo).argument_count <= 1)
 	{
-		_puts_fd("Not correct number of arguments\n", 2); /*STDERR_FILENO*/
+		_puts_fd("Not correct number of arguments\n", STDERR_FILENO); /*STDERR_FILENO*/
 		return (1);
 	}
 	for (; i <= (*myInfo).argument_count; i++)
