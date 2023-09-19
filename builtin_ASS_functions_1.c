@@ -38,19 +38,27 @@ int _exit_shell(myInfoObject *myInfo)
 int _cd_(myInfoObject *myInfo)
 {
 	char *current_dir, *target_dir, FARES[1024];
-	int AMR_dir;
+	int cd_result;
 
 	current_dir = getcwd(FARES, 1024);
 	if (!current_dir)
+	{
 		_puts("TODO: >>getcwd failure emsg here<<\n");
+		return -1;
+	}
 
 	if (!myInfo->arguments[1])
 	{
 		target_dir = gettingEnviormentVariable(myInfo, "HOME=");
 		if (!target_dir)
-		AMR_dir = chdir(target_dir ? target_dir : "/");
+		{
+			target_dir = "/";
+			cd_result = chdir(target_dir);
+		}
 		else
-		AMR_dir = chdir(target_dir);
+		{
+			cd_result = chdir(target_dir);
+		}
 	}
 	else if (_strcmp(myInfo->arguments[1], "-") == 0)
 	{
@@ -59,29 +67,33 @@ int _cd_(myInfoObject *myInfo)
 		{
 			_puts(current_dir);
 			_putchar('\n');
-			return (1);
+			return 1;
 		}
-		_puts(target_dir);
-		_putchar('\n');
-		AMR_dir = chdir(target_dir);
+		else
+		{
+			_puts(target_dir);
+			_putchar('\n');
+			cd_result = chdir(target_dir);
+		}
 	}
 	else
 	{
-
-		AMR_dir = chdir(myInfo->arguments[1]);
+		cd_result = chdir(myInfo->arguments[1]);
 	}
-	if (AMR_dir == -1)
+
+	if (cd_result == -1)
 	{
 		printingErrors(myInfo, "can't cd to ");
-		_puts(target_dir);
+		_puts(myInfo->arguments[1]);
 		_putchar('\n');
+		return -1;
 	}
 	else
 	{
-		settingEnvVar(myInfo, "OLDPWD", gettingEnviormentVariable(myInfo, "PWD="));
+		settingEnvVar(myInfo, "OLDPWD", current_dir);
 		settingEnvVar(myInfo, "PWD", getcwd(FARES, 1024));
+		return 0;
 	}
-	return (0);
 }
 
 /**
