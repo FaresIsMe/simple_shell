@@ -164,7 +164,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 		freeMyInfo(shellInfo, 0);
 	}
 
-	WriteHistory(shellInfo);
+	/*WriteHistory(shellInfo);*/
 	freeMyInfo(shellInfo, 1);
 
 	if (isInteractive(shellInfo) == 0 && shellInfo->status)

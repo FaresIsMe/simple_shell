@@ -11,27 +11,19 @@
 
 char *_strdup(char *str)
 {
-	int i;
+	int length = 0;
+	char *ret;
 
-	if (str != NULL)
-	{
-		char *newArray = (char *)malloc(_strlen(str) * sizeof(char) + 1);
-
-		if (newArray == NULL)
-		{
-			return (NULL);
-		}
-		else
-		{
-			for (i = 0; i < _strlen(str); i++)
-				_strcpy((newArray + i), (str + i));
-			return (newArray);
-		}
-	}
-	else
-	{
+	if (str == NULL)
 		return (NULL);
-	}
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
 }
 
 /**
