@@ -35,21 +35,21 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 	if (index == buffer_length)
 		index = buffer_length = 0;
 
-	read_result = read_buffer(myInfo, buffer, &buffer_length);
+	read_result = ReadBuffer(myInfo, buffer, &buffer_length);
 	if (read_result == -1 || (read_result == 0 && buffer_length == 0))
 		return (-1);
 
-	character = _custom_strchr(buffer + index, '\n');
+	character = _strchr(buffer + index, '\n');
 	count = character ? 1 + (unsigned int)(character - buffer) : buffer_length;
-	new_pointer = _custom_realloc(pointer, seek_result,
+	new_pointer = _realloc(pointer, seek_result,
 	seek_result ? seek_result + count : count + 1);
 	if (!new_pointer) 
 		return (pointer ? free(pointer), -1 : -1);
 
 	if (seek_result)
-		_custom_strncat(new_pointer, buffer + index, count - index);
+		_strncat(new_pointer, buffer + index, count - index);
 	else
-		_custom_strncpy(new_pointer, buffer + index, count - index + 1);
+		_strncpy(new_pointer, buffer + index, count - index + 1);
 
 	seek_result += count - index;
 	index = count;

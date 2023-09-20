@@ -74,8 +74,8 @@ char **strtow(char *str, char *delimiter)
 	if (!delimiter)
 		delimiter = " ";
 	for (index_i = 0; str[index_i] != '\0'; index_i++)
-		if (!is_delimiter(str[index_i], delimiter) &&
-        (is_delimiter(str[index_i + 1], delimiter) || !str[index_i + 1]))
+		if (!is_del(str[index_i], delimiter) &&
+        (is_del(str[index_i + 1], delimiter) || !str[index_i + 1]))
 			word_count++;
 
 	if (word_count == 0)
@@ -85,10 +85,10 @@ char **strtow(char *str, char *delimiter)
 		return NULL;
 	for (index_i = 0, index_j = 0; index_j < word_count; index_j++)
 	{
-		while (is_delimiter(str[index_i], delimiter))
+		while (is_del(str[index_i], delimiter))
 			index_i++;
 		index_k = 0;
-		while (!is_delimiter(str[index_i + index_k],
+		while (!is_del(str[index_i + index_k],
         delimiter) && str[index_i + index_k])
 			index_k++;
 		result[index_j] = malloc((index_k + 1) * sizeof(char));
