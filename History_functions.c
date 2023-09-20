@@ -65,72 +65,11 @@ int WriteHistory(myInfoObject *myInfo)
 	return (1);
 }
 /**
- * ReadHistoryList - whatever
- * @myInfo: whatever
- * 
- * Return: SUCK YOUR MOM
- * 
-*/
-int ReadHistoryList(myInfoObject *myInfo)
-{
-	int i, last = 0, linecount = 0;
-	ssize_t file_descriptor, read_length;
-	struct stat file_stats;
-	char *buffer = NULL, *filename;
-
-	filename = GetHistoryFile(myInfo);
-
-	file_descriptor = open(filename, O_RDONLY);
-
-	if (!filename)
-	return (0);
-
-	if (fstat(file_descriptor, &file_stats) != 0)
-	return (0);
-
-	if (file_stats.st_size < 2)
-	return (0);
-
-	buffer = malloc(sizeof(char) * (file_stats.st_size + 1));
-	if(buffer == NULL)
-	return (0);
-
-	read_length = read(file_descriptor, buffer, file_stats.st_size);
-
-	buffer[file_stats.st_size] = '\0';
-	close(file_descriptor);
-
-	if (read_length <= 0)
-	return (0);
-
-	for (i = 0; i < file_stats.st_size; i++)
-	{
-		if (buffer[i] == '\n')
-		{
-			BuildHistoryList(myInfo, buffer + last, linecount);
-			last = i + 1;
-		}
-	}
-	if (last != 1)
-	BuildHistoryList(myInfo, buffer + last, linecount);
-
-	free (buffer);
-
-	myInfo->history_count = linecount;
-
-	while (myInfo->history_count-- >= 4096)
-	delete_node_at_index(&(myInfo->history), 0);
-
-	REM_History(myInfo);
-
-	return (myInfo->history_count);
-}
-/**
  * BuildHistoryList - adds enrty to linked list
  * @myInfo: I DON"T GIVE A FART
  * @buffer: idc
  * @linecount: stll dc
- * 
+ *
  * Return: 0
 */
 int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
@@ -139,7 +78,7 @@ int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
 
 	if (myInfo->history)
 	newnode = myInfo->history;
-	
+
 	add_node_end(&newnode, buffer, linecount);
 
 	if (!myInfo->history)
@@ -150,7 +89,7 @@ int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount)
 /**
  * REM_History - Renumber the history linked list after changes
  * @myInfo: stfu
- * 
+ *
  * Return: new history count
 */
 int REM_History(myInfoObject *myInfo)
@@ -168,3 +107,53 @@ int REM_History(myInfoObject *myInfo)
 	return (new_histcount);
 }
 
+/**
+ * ReadHistoryList - whatever
+ * @myInfo: whatever
+ *
+ * Return: SUCK YOUR MOM
+ *
+*/
+
+int ReadHistoryList(myInfoObject *myInfo)
+{
+	int i, last = 0, linecount = 0;
+	ssize_t fd, rdlen, fsize = 0;
+	struct stat st;
+	char *buf = NULL, *filename = GetHistoryFile(myInfo);
+
+	if (!filename)
+		return (0);
+
+	fd = open(filename, O_RDONLY);
+	free(filename);
+	if (fd == -1)
+		return (0);
+	if (!fstat(fd, &st))
+		fsize = st.st_size;
+	if (fsize < 2)
+		return (0);
+	buf = malloc(sizeof(char) * (fsize + 1));
+	if (!buf)
+		return (0);
+	rdlen = read(fd, buf, fsize);
+	buf[fsize] = 0;
+	if (rdlen <= 0)
+		return (free(buf), 0);
+	close(fd);
+	for (i = 0; i < fsize; i++)
+		if (buf[i] == '\n')
+		{
+			buf[i] = 0;
+			BuildHistoryList(myInfo, buf + last, linecount++);
+			last = i + 1;
+		}
+	if (last != i)
+		BuildHistoryList(myInfo, buf + last, linecount++);
+	free(buf);
+	myInfo->history_count = linecount;
+	while (myInfo->history_count-- >= 4096)
+		delete_node_at_index(&(myInfo->history), 0);
+	REM_History(myInfo);
+	return (myInfo->history_count);
+}

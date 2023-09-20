@@ -9,20 +9,21 @@
 
 size_t print_list(const myList *h)
 {
-    const myList *current = h;
-    size_t counter = 0;
+	const myList *current = h;
+	size_t counter = 0;
 
-    while (current != NULL) {
-        if (current->myString != NULL)
-            _puts(current->myString);
-        else
-            _puts("(nil)");
-        _putchar('\n');
-        current = current->next;
-        counter++;
-    }
+	while (current != NULL)
+	{
+		if (current->myString != NULL)
+			_puts(current->myString);
+		else
+			_puts("(nil)");
+		_putchar('\n');
+		current = current->next;
+		counter++;
+	}
 
-    return counter;
+	return (counter);
 }
 
 /**
@@ -81,11 +82,11 @@ myList *add_node_end(myList **head, char *str, int num)
 	if (str != NULL)
 	{
 		newNode->myString = _strdup(str);
-        if (newNode->myString == NULL)
-        {
-            free(newNode);
-            return (NULL);
-        }
+		if (newNode->myString == NULL)
+		{
+			free(newNode);
+			return (NULL);
+		}
 		newNode->next = NULL;
 	}
 	if (!*head)
@@ -102,7 +103,7 @@ myList *add_node_end(myList **head, char *str, int num)
 
 
 /**
- * delete_nodeint_at_index - A function to delete a node at
+ * delete_node_at_index - A function to delete a node at
  * a specific index
  * @head: A pointer to a pointer that points to the head
  * of the linked list

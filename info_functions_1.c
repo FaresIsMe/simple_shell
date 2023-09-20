@@ -64,7 +64,7 @@ void freeMyInfo(myInfoObject *myInfo, int allCondition)
 	freeAString((*myInfo).arguments);
 	(*myInfo).arguments = NULL;
 	(*myInfo).path = NULL;
-	
+
 	if (allCondition != 0)
 	{
 		if ((*myInfo).command_buffer != NULL)

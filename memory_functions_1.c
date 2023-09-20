@@ -35,16 +35,16 @@ void freeAString(char **myPointer)
 {
 	char **current = myPointer;
 
-    if (myPointer == NULL || *myPointer == NULL) {
-        return;
-    }
-    while (*current != NULL) {
-        free(*current);
-        *current = NULL; /*Set the freed pointer to NULL to avoid dangling pointers*/
-        current++;
-    }
+	if (myPointer == NULL || *myPointer == NULL)
+		return;
+	while (*current != NULL)
+	{
+		free(*current);
+		*current = NULL; /*Set the freed pointer to NULL to avoid dangling pointers*/
+		current++;
+	}
 
-    free(myPointer);
+	free(myPointer);
 }
 
 /**

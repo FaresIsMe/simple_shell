@@ -132,7 +132,7 @@ int _putchar(char c);
 
 /*string functions 4*/
 char **strtow(char *str, char *del);
-char **strtow2(char *str, char *del);
+char **strtow2(char *str, char d);
 
 /*memory_functions_1*/
 char *_memset(char *s, char b, unsigned int n);

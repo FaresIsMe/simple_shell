@@ -67,8 +67,8 @@ char *_strcat(char *dest, char *src)
 
 /**
  * _strcpy - copies a string
- * @str1: The fist string
- * @str2: The second string
+ * @dest: The fist string
+ * @src: The second string
  * Return: The copy
 */
 char *_strcpy(char *dest, char *src)

@@ -2,7 +2,7 @@
 
 /**
  * main - entry
- * @avrgv: The vector arguement
+ * @argv: The vector arguement
  * @argc: The count arguement
  *
  * Return: 0 on success, 1 on failure
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	}
 
 	makingtheLinkedList(INFO);
-	/*ReadHistoryList(INFO);*/
+	ReadHistoryList(INFO);
 	her_shell_hell(INFO, argv);
 
 	return (EXIT_SUCCESS);

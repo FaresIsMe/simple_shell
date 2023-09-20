@@ -67,10 +67,8 @@ void forkingMyCmd(myInfoObject *myInfo)
 		if (myReturnedStatus == -1)
 		{
 			freeMyInfo(myInfo, 1);
-			/*
 			if (errno == EACCES)
 				exit(126);
-			*/
 			exit(1);
 		}
 	}

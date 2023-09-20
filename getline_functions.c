@@ -16,8 +16,8 @@ void handle_sigin(__attribute__((unused))int empty)
 /**
  * _getline - gets the line from standard input
  * @myInfo: I don't know man leave me alone
- * @lineptr: address of pointer to buffer
- * @n: The size of a preallocated pointer buffer
+ * @ptr: address of pointer to buffer
+ * @length: The size of a preallocated pointer buffer
  *
  * Return: lots of things I don't care
  */
@@ -43,7 +43,7 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 	count = character ? 1 + (unsigned int)(character - buffer) : buffer_length;
 	new_pointer = _realloc(pointer, seek_result,
 	seek_result ? seek_result + count : count + 1);
-	if (!new_pointer) 
+	if (!new_pointer)
 		return (pointer ? free(pointer), -1 : -1);
 
 	if (seek_result)

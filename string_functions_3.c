@@ -12,14 +12,14 @@ char *_strncat(char *dest, char *src, int n)
 		int i, j, L, L2, L3;
 
 		if (dest == NULL || src == NULL)
-		return NULL;
+		return (NULL);
 
 		L = strlen(dest);
 		L2 = L + n;
 		L3 = strlen(src);
 
 		if (L2 >= MAX_BUFFER_SIZE)
-		return NULL;
+		return (NULL);
 
 		for (i = L, j = 0; i < L2 && j < L3; i++, j++)
 		{
