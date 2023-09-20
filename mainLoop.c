@@ -152,7 +152,7 @@ int her_shell_hell(myInfoObject *shellInfo, char *arguments[])
 	{
 		clearMyInfoVariable(shellInfo);
 		if (isInteractive(shellInfo) != 0)
-			_puts("$ ");
+
 		read_status = GetInput(shellInfo);
 		if (read_status != -1)
 		{
