@@ -21,43 +21,44 @@ void handle_sigin(__attribute__((unused))int empty)
  *
  * Return: lots of things I don't care
  */
-int _getline(myInfoObject *myInfo, char **lineptr, size_t *length)
+int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 {
-	static char buf[MAX_BUFFER_SIZE];
-	static size_t i, len;
-	size_t k;
-	ssize_t r = 0, s = 0;
-	char *p = NULL, *new_p = NULL, *c;
+	static char buffer[MAX_BUFFER_SIZE];
+	static size_t index, buffer_length;
+	size_t count;
+	ssize_t read_result = 0, seek_result = 0;
+	char *pointer = NULL, *new_pointer = NULL, *character;
 
-	p = *lineptr;
-	if (p && length)
-		s = *length;
-	if (i == len)
-		i = len = 0;
+	pointer = *ptr;
+	if (pointer && length)
+		seek_result = *length;
+	if (index == buffer_length)
+		index = buffer_length = 0;
 
-	r = ReadBuffer(myInfo, buf, &len);
-	if (r == -1 || (r == 0 && len == 0))
+	read_result = read_buffer(myInfo, buffer, &buffer_length);
+	if (read_result == -1 || (read_result == 0 && buffer_length == 0))
 		return (-1);
 
-	c = _strchr(buf + i, '\n');
-	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) 
-		return (p ? free(p), -1 : -1);
+	character = _custom_strchr(buffer + index, '\n');
+	count = character ? 1 + (unsigned int)(character - buffer) : buffer_length;
+	new_pointer = _custom_realloc(pointer, seek_result,
+	seek_result ? seek_result + count : count + 1);
+	if (!new_pointer) 
+		return (pointer ? free(pointer), -1 : -1);
 
-	if (s)
-		_strncat(new_p, buf + i, k - i);
+	if (seek_result)
+		_custom_strncat(new_pointer, buffer + index, count - index);
 	else
-		_strncpy(new_p, buf + i, k - i + 1);
+		_custom_strncpy(new_pointer, buffer + index, count - index + 1);
 
-	s += k - i;
-	i = k;
-	p = new_p;
+	seek_result += count - index;
+	index = count;
+	pointer = new_pointer;
 
 	if (length)
-		*length = s;
-	*lineptr = p;
-	return (s);
+		*length = seek_result;
+	*ptr = pointer;
+	return (seek_result);
 }
 
 /**
