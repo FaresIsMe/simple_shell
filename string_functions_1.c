@@ -7,17 +7,14 @@
 */
 int _strlen(char *str)
 {
-	int len;
+	int i = 0;
 
 	if (!str)
 	return (0);
 
-	while (*str)
-	{
-		len++;
-		str = str + 1;
-	}
-	return (len);
+	while (*str++)
+		i++;
+	return (i);
 }
 /**
  * _strcmp - A function to compare two strings

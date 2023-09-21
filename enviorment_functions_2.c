@@ -65,32 +65,34 @@ int unsetEnvVar(myInfoObject *myInfo, char *myVar)
 
 int settingEnvVar(myInfoObject *myInfo, char *myVar, char *myValue)
 {
-	char *myBuffer;
-	myList *myHead;
-	char *myCP;
+	char *buf = NULL;
+	myList *node;
+	char *p;
 
-	if (myVar == NULL || myValue == NULL)
+	if (!myVar|| !myValue)
 		return (0);
-	myBuffer = malloc(sizeof(myVar) + sizeof(myValue) + 2);
-	_strcpy(myBuffer, myVar);
-	_strcat(myBuffer, "=");
-	_strcat(myBuffer, myValue);
-	myHead = (*myInfo).environment;
-	while (myHead != NULL)
+
+	buf = malloc(_strlen(myVar) + _strlen(myValue) + 2);
+	if (!buf)
+		return (1);
+	_strcpy(buf, myVar);
+	_strcat(buf, "=");
+	_strcat(buf, myValue);
+	node = myInfo->environment;
+	while (node)
 	{
-		myCP = startsWith((*myHead).myString, myVar);
-		if (myCP != NULL && *myCP == '=')
+		p = startsWith(node->myString, myVar);
+		if (p && *p == '=')
 		{
-			free((*myHead).myString);
-			_strcpy((*myHead).myString, myBuffer);
-			(*myInfo).environment_changed = 1;
-			free(myBuffer);
+			free(node->myString);
+			node->myString = buf;
+			myInfo->environment_changed = 1;
 			return (0);
 		}
-		myHead = (*myHead).next;
+		node = node->next;
 	}
-	add_node_end(&(*myInfo).environment, myBuffer, 0);
-	free(myBuffer);
-	(*myInfo).environment_changed = 1;
+	add_node_end(&(myInfo->environment), buf, 0);
+	free(buf);
+	myInfo->environment_changed = 1;
 	return (0);
 }

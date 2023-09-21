@@ -41,8 +41,9 @@ int _getline(myInfoObject *myInfo, char **ptr, size_t *length)
 
 	character = _strchr(buffer + index, '\n');
 	count = character ? 1 + (unsigned int)(character - buffer) : buffer_length;
-	new_pointer = _realloc(pointer, seek_result,
-	seek_result ? seek_result + count : count + 1);
+	new_pointer = realloc(pointer, 
+ 	seek_result ? seek_result + count : count + 1);
+
 	if (!new_pointer)
 		return (pointer ? free(pointer), -1 : -1);
 
