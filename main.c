@@ -13,13 +13,6 @@ int main(int argc, char **argv)
 	myInfoObject INFO [] = { Iintializing_INFO };
 	int file_descriptor = 2;
 
-	asm (
-		"mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (file_descriptor)
-		: "r" (file_descriptor)
-	);
-
 	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);
@@ -42,7 +35,6 @@ int main(int argc, char **argv)
 	}
 
 	makingtheLinkedList(INFO);
-	/*ReadHistoryList(INFO);*/
 	her_shell_hell(INFO, argv);
 
 	return (EXIT_SUCCESS);

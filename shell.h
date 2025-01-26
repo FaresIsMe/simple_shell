@@ -19,7 +19,6 @@
 #define MAX_ARGS 10
 #define IS_UNSIGNED 1
 #define IS_LOWERCASE 2
-#define HISTORY_FILE ".simple_shell_history"
 #define AND_COMMAND 5
 #define OR_COMMAND 6
 #define CHAIN_COMMAND 7
@@ -196,13 +195,12 @@ size_t gettingTheIndex(myList *myHead, myList *theRequiredNode);
 myList *isNodeStartsWith(myList *myHead, char *theSearchPre, char afterChar);
 char **convertingNodeStringstoArray(myList *myHead);
 
-/*builtin Ass functions part 1*/
+/* main built-in commands*/
 int _exit_shell(myInfoObject *myInfo);
 int _cd_(myInfoObject *myInfo);
 int _help_(myInfoObject *take_in_your_ass);
 
-/*builtin Ass functions part 2*/
-int print_history(myInfoObject *game_of_thrones);
+/*alias commands*/
 int _unset_alias(myInfoObject *die, char *dying);
 int _set_alias(myInfoObject *help, char *me);
 int PrintAlias(myList *pain);
@@ -222,23 +220,11 @@ bool replacingMyAliases(myInfoObject *myInfo);
 bool replacingMyVariables(myInfoObject *myInfo);
 bool replacingNewandOldStrings(char **theOldOne, char *theNewOne);
 
-/*history functions*/
-char *GetHistoryFile(myInfoObject *myInfo);
-int WriteHistory(myInfoObject *myInfo);
-int ReadHistoryList(myInfoObject *myInfo);
-int BuildHistoryList(myInfoObject *myInfo, char *buffer, int linecount);
-int REM_History(myInfoObject *myInfo);
-
 /*main function loop functions*/
 int findingMyBuiltinFunc(myInfoObject *myInfo);
 void forkingMyCmd(myInfoObject *myInfo);
 void findingCommandLastTime(myInfoObject *myInfo);
 int her_shell_hell(myInfoObject *shellInfo, char *arguments[]);
 
-/*
- *	----------------
- *	Not finished Yet -> To be continued
- *	----------------
-*/
 
 #endif

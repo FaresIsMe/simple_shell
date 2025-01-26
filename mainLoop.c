@@ -19,7 +19,6 @@ int findingMyBuiltinFunc(myInfoObject *myInfo)
 		{"exit", _exit_shell},
 		{"env", printingEnviormentList},
 		{"help", _help_},
-		{"history", print_history},
 		{"setenv", preparnigForSettingEnv},
 		{"unsetenv", preparingForUnsettingEnv},
 		{"cd", _cd_},

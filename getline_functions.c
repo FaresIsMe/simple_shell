@@ -158,7 +158,6 @@ ssize_t InputBuffer(myInfoObject *myInfo, char **buffer, size_t *length)
 			}
 			myInfo->linecount_flag = 1;
 			removingComments(*buffer);
-			BuildHistoryList(myInfo, *buffer, myInfo->history_count++);
 
 			if (_strchr(*buffer, ';'))
 			{

@@ -136,7 +136,7 @@ int printingDecimal(int myInput, int fileD)
 	unsigned int myAbsolute, myCurrent;
 	unsigned int myDivisor = 1000000000;
 
-	if (fileD == STDERR_FILENO) /*STDERR_FILENO*/
+	if (fileD == STDERR_FILENO)
 		myPrintFunction = _errorputchar;
 	if (myInput < 0)
 	{
